@@ -179,8 +179,7 @@ where
 	E2: From<E1>,
 {
 	fn val_from(val: Result<T1, E1>) -> Self {
-		val.map(|v| v.into())
-			.map_err(|e| e.into())
+		val.err_into().ok_into()
 	}
 }
 
@@ -216,6 +215,6 @@ where
 	E2: From<E1>,
 {
 	fn val_into(self) -> Result<T2, E2> {
-		Result::val_from(self)
+		ResultValueFrom::val_from(self)
 	}
 }
