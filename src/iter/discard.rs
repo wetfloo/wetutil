@@ -2,13 +2,14 @@ use std::iter::FusedIterator;
 
 pub type DiscardOk<N> = DiscardSpecialCase<N, DiscardSpecialCaseFnOk>;
 pub type DiscardError<N> = DiscardSpecialCase<N, DiscardSpecialCaseFnError>;
+pub type DiscardNone<N> = DiscardSpecialCase<N, DiscardSpecialCaseFnNone>;
 
 pub struct DiscardSpecialCase<N, F> {
 	inner_iter: N,
 	f: F,
 }
 
-impl<N> DiscardSpecialCase<N, DiscardSpecialCaseFnOk> {
+impl<N> DiscardOk<N> {
 	#[inline]
 	pub(crate) fn new<T, E>(inner_iter: N) -> Self
 	where
@@ -21,7 +22,7 @@ impl<N> DiscardSpecialCase<N, DiscardSpecialCaseFnOk> {
 	}
 }
 
-impl<N> DiscardSpecialCase<N, DiscardSpecialCaseFnError> {
+impl<N> DiscardError<N> {
 	#[inline]
 	pub(crate) fn new<T, E>(inner_iter: N) -> Self
 	where
@@ -30,6 +31,19 @@ impl<N> DiscardSpecialCase<N, DiscardSpecialCaseFnError> {
 		Self {
 			inner_iter,
 			f: DiscardSpecialCaseFnError,
+		}
+	}
+}
+
+impl<N> DiscardNone<N> {
+	#[inline]
+	pub(crate) fn new<T>(inner_iter: N) -> Self
+	where
+		N: Iterator<Item = Option<T>>,
+	{
+		Self {
+			inner_iter,
+			f: DiscardSpecialCaseFnNone,
 		}
 	}
 }
@@ -100,5 +114,16 @@ impl<T, E> DiscardSpecialCaseFn<Result<T, E>> for DiscardSpecialCaseFnError {
 	#[inline]
 	fn call(&mut self, val: Result<T, E>) -> Option<Self::Out> {
 		val.ok()
+	}
+}
+
+pub struct DiscardSpecialCaseFnNone;
+
+impl<T> DiscardSpecialCaseFn<Option<T>> for DiscardSpecialCaseFnNone {
+	type Out = T;
+
+	#[inline]
+	fn call(&mut self, val: Option<T>) -> Option<Self::Out> {
+		val
 	}
 }

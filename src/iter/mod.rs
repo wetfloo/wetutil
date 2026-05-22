@@ -1,8 +1,8 @@
 mod discard;
 mod inspect;
 
-use crate::iter::discard::{DiscardError, DiscardOk};
-use inspect::{InspectError, InspectOk};
+use crate::iter::discard::{DiscardError, DiscardNone, DiscardOk};
+use inspect::{InspectError, InspectOk, InspectSome};
 
 pub trait IterExt: Iterator {
 	/// Allows you to inspect any [Ok] contents without modifying the iterator.
@@ -79,6 +79,43 @@ pub trait IterExt: Iterator {
 		InspectError::new(self, inspect)
 	}
 
+	/// Allows you to inspect any [Some] contents without modifying the iterator.
+	///
+	/// ```
+	/// # use wetutil::iter::IterExt;
+	/// let results: [Option<u8>; _] = [
+	///     None,
+	///     Some(2),
+	///     None,
+	///     None,
+	///     Some(5),
+	///     Some(6),
+	/// ];
+	/// let mut inspect_storage = Vec::new();
+	///
+	/// let mut iter = results
+	///     .into_iter()
+	///     .inspect_some(|&v| inspect_storage.push(v));
+	///
+	/// assert_eq!(Some(None), iter.next());
+	/// assert_eq!(Some(Some(2)), iter.next());
+	/// assert_eq!(Some(None), iter.next());
+	/// assert_eq!(Some(None), iter.next());
+	/// assert_eq!(Some(Some(5)), iter.next());
+	/// assert_eq!(Some(Some(6)), iter.next());
+	/// assert_eq!(None, iter.next());
+	///
+	/// assert_eq!(vec![2, 5, 6], inspect_storage);
+	/// ```
+	#[inline]
+	fn inspect_some<T, F>(self, inspect: F) -> InspectSome<Self, F>
+	where
+		Self: Iterator<Item = Option<T>> + Sized,
+		F: FnMut(&T),
+	{
+		InspectSome::new(self, inspect)
+	}
+
 	/// Drops any [Ok], passing along only [Err] contents.
 	///
 	/// ```
@@ -137,6 +174,36 @@ pub trait IterExt: Iterator {
 		Self: Iterator<Item = Result<T, E>> + Sized,
 	{
 		DiscardError::new(self)
+	}
+
+	/// Drops any [None], passing along only [Some] contents.
+	///
+	/// ```
+	/// # use wetutil::iter::IterExt;
+	/// let results: [Option<u8>; _] = [
+	///     None,
+	///     Some(2),
+	///     None,
+	///     None,
+	///     Some(5),
+	///     Some(6),
+	/// ];
+	///
+	/// let mut filtered_iter = results
+	///     .into_iter()
+	///     .discard_none();
+	///
+	/// assert_eq!(Some(2), filtered_iter.next());
+	/// assert_eq!(Some(5), filtered_iter.next());
+	/// assert_eq!(Some(6), filtered_iter.next());
+	/// assert_eq!(None, filtered_iter.next());
+	/// ```
+	#[inline]
+	fn discard_none<T>(self) -> DiscardNone<Self>
+	where
+		Self: Iterator<Item = Option<T>> + Sized,
+	{
+		DiscardNone::new(self)
 	}
 }
 

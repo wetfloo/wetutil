@@ -2,6 +2,7 @@ use std::iter::FusedIterator;
 
 pub type InspectOk<N, F> = InspectSpecialCase<N, InspectSpecialCaseFnOk<F>>;
 pub type InspectError<N, F> = InspectSpecialCase<N, InspectSpecialCaseFnError<F>>;
+pub type InspectSome<N, F> = InspectSpecialCase<N, InspectSpecialCaseFnSome<F>>;
 
 pub struct InspectSpecialCase<N, F> {
 	inner_iter: N,
@@ -59,7 +60,21 @@ where
 {
 }
 
-impl<N, F> InspectSpecialCase<N, InspectSpecialCaseFnError<F>> {
+impl<N, F> InspectOk<N, F> {
+	#[inline]
+	pub(crate) fn new<T, E>(inner_iter: N, f: F) -> Self
+	where
+		N: Iterator<Item = Result<T, E>>,
+		F: FnMut(&T),
+	{
+		Self {
+			inner_iter,
+			f: InspectSpecialCaseFnOk(f),
+		}
+	}
+}
+
+impl<N, F> InspectError<N, F> {
 	#[inline]
 	pub(crate) fn new<T, E>(inner_iter: N, f: F) -> Self
 	where
@@ -73,16 +88,16 @@ impl<N, F> InspectSpecialCase<N, InspectSpecialCaseFnError<F>> {
 	}
 }
 
-impl<N, F> InspectSpecialCase<N, InspectSpecialCaseFnOk<F>> {
+impl<N, F> InspectSome<N, F> {
 	#[inline]
-	pub(crate) fn new<T, E>(inner_iter: N, f: F) -> Self
+	pub(crate) fn new<T>(inner_iter: N, f: F) -> Self
 	where
-		N: Iterator<Item = Result<T, E>>,
+		N: Iterator<Item = Option<T>>,
 		F: FnMut(&T),
 	{
 		Self {
 			inner_iter,
-			f: InspectSpecialCaseFnOk(f),
+			f: InspectSpecialCaseFnSome(f),
 		}
 	}
 }
@@ -115,6 +130,20 @@ where
 	fn call(&mut self, val: &Result<T, E>) {
 		if let Err(e) = val.as_ref() {
 			self.0(e)
+		}
+	}
+}
+
+pub struct InspectSpecialCaseFnSome<F>(F);
+
+impl<T, F> InspectSpecialCaseFn<Option<T>> for InspectSpecialCaseFnSome<F>
+where
+	F: FnMut(&T),
+{
+	#[inline]
+	fn call(&mut self, val: &Option<T>) {
+		if let Some(v) = val.as_ref() {
+			self.0(v)
 		}
 	}
 }
