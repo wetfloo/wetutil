@@ -1,4 +1,28 @@
 pub trait ResultOkFrom<T1, T2, E1> {
+	/// Converts between [Ok] values.
+	///
+	/// For a nicer, more convenient conversion, see [ResultOkInto].
+	///
+	/// # Examples
+	///
+	/// Using [From]:
+	///
+	/// ```
+	/// let r1: Result<u8, ()> = Ok(42);
+	/// let r2: Result<u16, _> = r1.map(From::from);
+	///
+	/// assert_eq!(Ok(42u16), r2);
+	/// ```
+	///
+	/// Using [ResultOkFrom]:
+	///
+	/// ```
+	/// # use wetutil::result::ResultOkFrom as _;
+	/// let r1: Result<u8, ()> = Ok(42);
+	/// let r2: Result<u16, _> = Result::ok_from(r1);
+	///
+	/// assert_eq!(Ok(42u16), r2);
+	/// ```
 	fn ok_from(val: Result<T1, E1>) -> Self;
 }
 
@@ -12,6 +36,28 @@ where
 }
 
 pub trait ResultOkInto<T1, T2, E1> {
+	/// Converts between [Ok] values.
+	///
+	/// # Examples
+	///
+	/// Using [Into]:
+	///
+	/// ```
+	/// let r1: Result<u8, ()> = Ok(42);
+	/// let r2: Result<u16, _> = r1.map(|v| v.into());
+	///
+	/// assert_eq!(Ok(42u16), r2);
+	/// ```
+	///
+	/// Using [ResultOkInto]:
+	///
+	/// ```
+	/// # use wetutil::result::ResultOkInto as _;
+	/// let r1: Result<u8, ()> = Ok(42);
+	/// let r2: Result<u16, _> = r1.ok_into();
+	///
+	/// assert_eq!(Ok(42u16), r2);
+	/// ```
 	fn ok_into(self) -> Result<T2, E1>;
 }
 
@@ -25,6 +71,30 @@ where
 }
 
 pub trait ResultErrFrom<T1, E1, E2> {
+	/// Converts between [Err] values.
+	///
+	/// For a nicer, more convenient conversion, see [ResultErrInto].
+	///
+	/// # Examples
+	///
+	/// Using [From]:
+	///
+	/// ```
+	/// let r1: Result<(), u8> = Err(42);
+	/// let r2: Result<_, u16> = r1.map_err(From::from);
+	///
+	/// assert_eq!(Err(42u16), r2);
+	/// ```
+	///
+	/// Using [ResultErrFrom]:
+	///
+	/// ```
+	/// # use wetutil::result::ResultErrFrom as _;
+	/// let r1: Result<(), u8> = Err(42);
+	/// let r2: Result<_, u16> = Result::err_from(r1);
+	///
+	/// assert_eq!(Err(42u16), r2);
+	/// ```
 	fn err_from(val: Result<T1, E1>) -> Self;
 }
 
@@ -41,6 +111,28 @@ where
 }
 
 pub trait ResultErrInto<T1, E1, E2> {
+	/// Converts between [Err] values.
+	///
+	/// # Examples
+	///
+	/// Using [Into]:
+	///
+	/// ```
+	/// let r1: Result<(), u8> = Err(42);
+	/// let r2: Result<_, u16> = r1.map_err(|v| v.into());
+	///
+	/// assert_eq!(Err(42u16), r2);
+	/// ```
+	///
+	/// Using [ResultErrInto]:
+	///
+	/// ```
+	/// # use wetutil::result::ResultErrInto as _;
+	/// let r1: Result<(), u8> = Err(42);
+	/// let r2: Result<_, u16> = r1.err_into();
+	///
+	/// assert_eq!(Err(42u16), r2);
+	/// ```
 	fn err_into(self) -> Result<T1, E2>;
 }
 
@@ -54,6 +146,30 @@ where
 }
 
 pub trait ResultBothFrom<T1, T2, E1, E2> {
+	/// Converts both [Ok] and [Err] values.
+	///
+	/// For a nicer, more convenient conversion, see [ResultBothInto].
+	///
+	/// # Examples
+	///
+	/// Using [From]:
+	///
+	/// ```
+	/// let r1: Result<u8, &str> = Ok(42);
+	/// let r2: Result<u16, String> = r1.map(From::from).map_err(From::from);
+	///
+	/// assert_eq!(Ok(42u16), r2);
+	/// ```
+	///
+	/// Using [ResultBothFrom]:
+	///
+	/// ```
+	/// # use wetutil::result::ResultBothFrom as _;
+	/// let r1: Result<u8, &str> = Ok(42);
+	/// let r2: Result<u16, String> = Result::both_from(r1);
+	///
+	/// assert_eq!(Ok(42u16), r2);
+	/// ```
 	fn both_from(val: Result<T1, E1>) -> Self;
 }
 
@@ -69,6 +185,28 @@ where
 }
 
 pub trait ResultBothInto<T1, T2, E1, E2> {
+	/// Converts both [Ok] and [Err] values.
+	///
+	/// # Examples
+	///
+	/// Using [Into]:
+	///
+	/// ```
+	/// let r1: Result<u8, &str> = Ok(42);
+	/// let r2: Result<u16, String> = r1.map(|v| v.into()).map_err(|e| e.into());
+	///
+	/// assert_eq!(Ok(42u16), r2);
+	/// ```
+	///
+	/// Using [ResultBothInto]:
+	///
+	/// ```
+	/// # use wetutil::result::ResultBothInto as _;
+	/// let r1: Result<u8, &str> = Ok(42);
+	/// let r2: Result<u16, String> = r1.both_into();
+	///
+	/// assert_eq!(Ok(42u16), r2);
+	/// ```
 	fn both_into(self) -> Result<T2, E2>;
 }
 
