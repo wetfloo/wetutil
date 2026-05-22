@@ -23,6 +23,7 @@ where
 			.inspect(|val| self.f.call(val))
 	}
 
+	#[inline]
 	fn size_hint(&self) -> (usize, Option<usize>) {
 		self.inner_iter.size_hint()
 	}
@@ -45,6 +46,7 @@ where
 	N: ExactSizeIterator<Item = Result<T, E>>,
 	F: InspectSpecialCaseFn<N::Item>,
 {
+	#[inline]
 	fn len(&self) -> usize {
 		self.inner_iter.len()
 	}
@@ -58,6 +60,7 @@ where
 }
 
 impl<N, F> InspectSpecialCase<N, InspectSpecialCaseFnError<F>> {
+	#[inline]
 	pub(crate) fn new<T, E>(inner_iter: N, f: F) -> Self
 	where
 		N: Iterator<Item = Result<T, E>>,
@@ -71,6 +74,7 @@ impl<N, F> InspectSpecialCase<N, InspectSpecialCaseFnError<F>> {
 }
 
 impl<N, F> InspectSpecialCase<N, InspectSpecialCaseFnOk<F>> {
+	#[inline]
 	pub(crate) fn new<T, E>(inner_iter: N, f: F) -> Self
 	where
 		N: Iterator<Item = Result<T, E>>,
@@ -93,6 +97,7 @@ impl<T, E, F> InspectSpecialCaseFn<Result<T, E>> for InspectSpecialCaseFnOk<F>
 where
 	F: FnMut(&T),
 {
+	#[inline]
 	fn call(&mut self, val: &Result<T, E>) {
 		if let Ok(v) = val.as_ref() {
 			self.0(v)
@@ -106,6 +111,7 @@ impl<T, E, F> InspectSpecialCaseFn<Result<T, E>> for InspectSpecialCaseFnError<F
 where
 	F: FnMut(&E),
 {
+	#[inline]
 	fn call(&mut self, val: &Result<T, E>) {
 		if let Err(e) = val.as_ref() {
 			self.0(e)

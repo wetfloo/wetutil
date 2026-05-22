@@ -30,6 +30,7 @@ impl<T1, T2, E1> ResultOkFrom<T1, T2, E1> for Result<T2, E1>
 where
 	T2: From<T1>,
 {
+	#[inline]
 	fn ok_from(val: Result<T1, E1>) -> Self {
 		val.map(|v| v.into())
 	}
@@ -65,6 +66,7 @@ impl<T1, T2, E1> ResultOkInto<T1, T2, E1> for Result<T1, E1>
 where
 	T2: From<T1>,
 {
+	#[inline]
 	fn ok_into(self) -> Result<T2, E1> {
 		Result::ok_from(self)
 	}
@@ -102,6 +104,7 @@ impl<T1, E1, E2> ResultErrFrom<T1, E1, E2> for Result<T1, E2>
 where
 	E2: From<E1>,
 {
+	#[inline]
 	fn err_from(val: Result<T1, E1>) -> Self
 	where
 		E2: From<E1>,
@@ -140,6 +143,7 @@ impl<T1, E1, E2> ResultErrInto<T1, E1, E2> for Result<T1, E1>
 where
 	E2: From<E1>,
 {
+	#[inline]
 	fn err_into(self) -> Result<T1, E2> {
 		Result::err_from(self)
 	}
@@ -178,6 +182,7 @@ where
 	T2: From<T1>,
 	E2: From<E1>,
 {
+	#[inline]
 	fn val_from(val: Result<T1, E1>) -> Self {
 		val.err_into().ok_into()
 	}
@@ -214,6 +219,7 @@ where
 	T2: From<T1>,
 	E2: From<E1>,
 {
+	#[inline]
 	fn val_into(self) -> Result<T2, E2> {
 		ResultValueFrom::val_from(self)
 	}

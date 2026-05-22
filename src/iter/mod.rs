@@ -6,6 +6,7 @@ use inspect::{InspectError, InspectOk};
 
 pub trait IterExt: Iterator {
 	/// Allows you to inspect any [Ok] contents without modifying the iterator.
+	#[inline]
 	fn inspect_ok<T, E, F>(self, inspect: F) -> InspectOk<Self, F>
 	where
 		Self: Iterator<Item = Result<T, E>> + Sized,
@@ -15,6 +16,7 @@ pub trait IterExt: Iterator {
 	}
 
 	/// Allows you to inspect any [Err] contents without modifying the iterator.
+	#[inline]
 	fn inspect_err<T, E, F>(self, inspect: F) -> InspectError<Self, F>
 	where
 		Self: Iterator<Item = Result<T, E>> + Sized,
@@ -45,6 +47,7 @@ pub trait IterExt: Iterator {
 	/// assert_eq!(Some(6), filtered_iter.next());
 	/// assert_eq!(None, filtered_iter.next());
 	/// ```
+	#[inline]
 	fn discard_ok<T, E>(self) -> DiscardOk<Self>
 	where
 		Self: Iterator<Item = Result<T, E>> + Sized,
@@ -74,6 +77,7 @@ pub trait IterExt: Iterator {
 	/// assert_eq!(Some(4), filtered_iter.next());
 	/// assert_eq!(None, filtered_iter.next());
 	/// ```
+	#[inline]
 	fn discard_err<T, E>(self) -> DiscardError<Self>
 	where
 		Self: Iterator<Item = Result<T, E>> + Sized,

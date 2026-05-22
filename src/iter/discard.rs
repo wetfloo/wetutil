@@ -9,6 +9,7 @@ pub struct DiscardSpecialCase<N, F> {
 }
 
 impl<N> DiscardSpecialCase<N, DiscardSpecialCaseFnOk> {
+	#[inline]
 	pub(crate) fn new<T, E>(inner_iter: N) -> Self
 	where
 		N: Iterator<Item = Result<T, E>>,
@@ -21,6 +22,7 @@ impl<N> DiscardSpecialCase<N, DiscardSpecialCaseFnOk> {
 }
 
 impl<N> DiscardSpecialCase<N, DiscardSpecialCaseFnError> {
+	#[inline]
 	pub(crate) fn new<T, E>(inner_iter: N) -> Self
 	where
 		N: Iterator<Item = Result<T, E>>,
@@ -49,6 +51,7 @@ where
 		None
 	}
 
+	#[inline]
 	fn size_hint(&self) -> (usize, Option<usize>) {
 		(0, self.inner_iter.size_hint().1)
 	}
@@ -83,6 +86,7 @@ pub struct DiscardSpecialCaseFnOk;
 impl<T, E> DiscardSpecialCaseFn<Result<T, E>> for DiscardSpecialCaseFnOk {
 	type Out = E;
 
+	#[inline]
 	fn call(&mut self, val: Result<T, E>) -> Option<Self::Out> {
 		val.err()
 	}
@@ -93,6 +97,7 @@ pub struct DiscardSpecialCaseFnError;
 impl<T, E> DiscardSpecialCaseFn<Result<T, E>> for DiscardSpecialCaseFnError {
 	type Out = T;
 
+	#[inline]
 	fn call(&mut self, val: Result<T, E>) -> Option<Self::Out> {
 		val.ok()
 	}
