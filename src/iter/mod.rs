@@ -17,10 +17,11 @@ pub trait IterExt: Iterator {
 	///     Err(5),
 	///     Err(6),
 	/// ];
+	/// let mut inspect_storage = Vec::new();
 	///
 	/// let mut iter = results
 	///     .into_iter()
-	///     .inspect_ok(|v| print!("{}", v)); // Will print "134"
+	///     .inspect_ok(|&v| inspect_storage.push(v));
 	///
 	/// assert_eq!(Some(Ok(1)), iter.next());
 	/// assert_eq!(Some(Err(2)), iter.next());
@@ -29,6 +30,8 @@ pub trait IterExt: Iterator {
 	/// assert_eq!(Some(Err(5)), iter.next());
 	/// assert_eq!(Some(Err(6)), iter.next());
 	/// assert_eq!(None, iter.next());
+	///
+	/// assert_eq!(vec![1, 3, 4], inspect_storage);
 	/// ```
 	#[inline]
 	fn inspect_ok<T, E, F>(self, inspect: F) -> InspectOk<Self, F>
@@ -51,10 +54,11 @@ pub trait IterExt: Iterator {
 	///     Err(5),
 	///     Err(6),
 	/// ];
+	/// let mut inspect_storage = Vec::new();
 	///
 	/// let mut iter = results
 	///     .into_iter()
-	///     .inspect_ok(|v| print!("{}", v)); // Will print "256"
+	///     .inspect_err(|&v| inspect_storage.push(v));
 	///
 	/// assert_eq!(Some(Ok(1)), iter.next());
 	/// assert_eq!(Some(Err(2)), iter.next());
@@ -63,6 +67,8 @@ pub trait IterExt: Iterator {
 	/// assert_eq!(Some(Err(5)), iter.next());
 	/// assert_eq!(Some(Err(6)), iter.next());
 	/// assert_eq!(None, iter.next());
+	///
+	/// assert_eq!(vec![2, 5, 6], inspect_storage);
 	/// ```
 	#[inline]
 	fn inspect_err<T, E, F>(self, inspect: F) -> InspectError<Self, F>
