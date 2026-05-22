@@ -32,7 +32,7 @@ where
 {
 	#[inline]
 	fn ok_from(val: Result<T1, E1>) -> Self {
-		val.map(|v| v.into())
+		val.map(From::from)
 	}
 }
 
@@ -68,7 +68,7 @@ where
 {
 	#[inline]
 	fn ok_into(self) -> Result<T2, E1> {
-		Result::ok_from(self)
+		ResultOkFrom::ok_from(self)
 	}
 }
 
@@ -109,7 +109,7 @@ where
 	where
 		E2: From<E1>,
 	{
-		val.map_err(|err| err.into())
+		val.map_err(From::from)
 	}
 }
 
@@ -145,7 +145,7 @@ where
 {
 	#[inline]
 	fn err_into(self) -> Result<T1, E2> {
-		Result::err_from(self)
+		ResultErrFrom::err_from(self)
 	}
 }
 
