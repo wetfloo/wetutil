@@ -1,10 +1,7 @@
 use std::iter::FusedIterator;
 
-use crate::iter::inspect::InspectSpecialCaseFnOk;
-
 pub type ConsumeOk<N, F> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnOk<F>>;
-// pub type ConsumeError<N, F> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnError<F>>;
-// pub type ConsumeSome<N, F> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnSome<F>>;
+pub type ConsumeError<N, F> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnError<F>>;
 
 pub struct ConsumeSpecialCase<N, F> {
 	inner_iter: N,
@@ -21,8 +18,8 @@ where
 	type Item = F::Unconsumed;
 
 	fn next(&mut self) -> Option<Self::Item> {
-		loop {
-			match self.f.call(self.inner_iter.next()?) {
+		for val in self.inner_iter.by_ref() {
+			match self.f.call(val) {
 				// Consume the original value,
 				// trying to find next that won't be consumed.
 				None => continue,
@@ -30,6 +27,8 @@ where
 				v => return v,
 			}
 		}
+
+		None
 	}
 
 	#[inline]
@@ -44,11 +43,8 @@ where
 	F: ConsumeSpecialCaseFn<N::Item>,
 {
 	fn next_back(&mut self) -> Option<Self::Item> {
-		loop {
-			match self
-				.f
-				.call(self.inner_iter.next_back()?)
-			{
+		for val in self.inner_iter.by_ref().rev() {
+			match self.f.call(val) {
 				// Consume the original value,
 				// trying to find next that won't be consumed.
 				None => continue,
@@ -56,6 +52,8 @@ where
 				v => return v,
 			}
 		}
+
+		None
 	}
 }
 
@@ -66,20 +64,23 @@ where
 {
 }
 
+pub trait ConsumeSpecialCaseFn<T> {
+	type Unconsumed;
+
+	fn call(&mut self, val: T) -> Option<Self::Unconsumed>;
+}
+
 impl<N, F> ConsumeOk<N, F> {
 	#[inline]
-	pub(crate) fn new<T, E>(inner_iter: N, f: F) -> Self {
+	pub(crate) fn new<T, E>(inner_iter: N, f: F) -> Self
+	where
+		N: Iterator<Item = Result<T, E>>,
+	{
 		Self {
 			inner_iter,
 			f: ConsumeSpecialCaseFnOk(f),
 		}
 	}
-}
-
-pub(crate) trait ConsumeSpecialCaseFn<T> {
-	type Unconsumed;
-
-	fn call(&mut self, val: T) -> Option<Self::Unconsumed>;
 }
 
 pub struct ConsumeSpecialCaseFnOk<F>(F);
@@ -98,6 +99,39 @@ where
 				None
 			},
 			Err(e) => Some(e),
+		}
+	}
+}
+
+impl<N, F> ConsumeError<N, F> {
+	#[inline]
+	pub(crate) fn new<T, E>(inner_iter: N, f: F) -> Self
+	where
+		N: Iterator<Item = Result<T, E>>,
+	{
+		Self {
+			inner_iter,
+			f: ConsumeSpecialCaseFnError(f),
+		}
+	}
+}
+
+pub struct ConsumeSpecialCaseFnError<F>(F);
+
+impl<T, E, F> ConsumeSpecialCaseFn<Result<T, E>> for ConsumeSpecialCaseFnError<F>
+where
+	F: FnMut(E),
+{
+	type Unconsumed = T;
+
+	#[inline]
+	fn call(&mut self, val: Result<T, E>) -> Option<Self::Unconsumed> {
+		match val {
+			Err(e) => {
+				self.0(e);
+				None
+			},
+			Ok(v) => Some(v),
 		}
 	}
 }

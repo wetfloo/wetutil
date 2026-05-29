@@ -3,7 +3,7 @@ mod discard;
 mod inspect;
 
 use crate::iter::discard::{DiscardError, DiscardNone, DiscardOk};
-use consume::{ConsumeError, ConsumeOk, ConsumeSome};
+use consume::{ConsumeError, ConsumeOk};
 use inspect::{InspectError, InspectOk, InspectSome};
 
 pub trait IterExt: Iterator {
@@ -209,12 +209,21 @@ pub trait IterExt: Iterator {
 	}
 
 	#[inline]
-	fn consume_ok<T, E, F>(self, inspect: F) -> ConsumeOk<Self, F>
+	fn consume_ok<T, E, F>(self, f: F) -> ConsumeOk<Self, F>
 	where
 		Self: Iterator<Item = Result<T, E>> + Sized,
 		F: FnMut(T),
 	{
-		todo!()
+		ConsumeOk::new(self, f)
+	}
+
+	#[inline]
+	fn consume_err<T, E, F>(self, f: F) -> ConsumeError<Self, F>
+	where
+		Self: Iterator<Item = Result<T, E>> + Sized,
+		F: FnMut(E),
+	{
+		ConsumeError::new(self, f)
 	}
 }
 
