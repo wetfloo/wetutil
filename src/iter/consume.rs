@@ -2,6 +2,11 @@ use std::iter::FusedIterator;
 
 pub type ConsumeOk<N, F> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnOk<F>>;
 pub type ConsumeError<N, F> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnError<F>>;
+pub type ConsumeNone<N> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnNone>;
+
+pub type DiscardOk<N> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnOk<()>>;
+pub type DiscardError<N> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnError<()>>;
+pub type DiscardNone<N> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnNone>;
 
 pub struct ConsumeSpecialCase<N, F> {
 	inner_iter: N,
@@ -103,6 +108,15 @@ where
 	}
 }
 
+impl<T, E> ConsumeSpecialCaseFn<Result<T, E>> for ConsumeSpecialCaseFnOk<()> {
+	type Unconsumed = E;
+
+	#[inline]
+	fn call(&mut self, val: Result<T, E>) -> Option<Self::Unconsumed> {
+		val.err()
+	}
+}
+
 impl<N, F> ConsumeError<N, F> {
 	#[inline]
 	pub(crate) fn new<T, E>(inner_iter: N, f: F) -> Self
@@ -133,5 +147,38 @@ where
 			},
 			Ok(v) => Some(v),
 		}
+	}
+}
+
+impl<T, E> ConsumeSpecialCaseFn<Result<T, E>> for ConsumeSpecialCaseFnError<()> {
+	type Unconsumed = T;
+
+	#[inline]
+	fn call(&mut self, val: Result<T, E>) -> Option<Self::Unconsumed> {
+		val.ok()
+	}
+}
+
+impl<N> ConsumeNone<N> {
+	#[inline]
+	pub(crate) fn new<T>(inner_iter: N) -> Self
+	where
+		N: Iterator<Item = Option<T>>,
+	{
+		Self {
+			inner_iter,
+			f: ConsumeSpecialCaseFnNone,
+		}
+	}
+}
+
+pub struct ConsumeSpecialCaseFnNone;
+
+impl<T> ConsumeSpecialCaseFn<Option<T>> for ConsumeSpecialCaseFnNone {
+	type Unconsumed = T;
+
+	#[inline]
+	fn call(&mut self, val: Option<T>) -> Option<Self::Unconsumed> {
+		val
 	}
 }

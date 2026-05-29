@@ -1,8 +1,7 @@
 mod consume;
-mod discard;
 mod inspect;
 
-use crate::iter::discard::{DiscardError, DiscardNone, DiscardOk};
+use crate::iter::consume::{DiscardError, DiscardNone, DiscardOk};
 use consume::{ConsumeError, ConsumeOk};
 use inspect::{InspectError, InspectOk, InspectSome};
 
@@ -145,7 +144,7 @@ pub trait IterExt: Iterator {
 	where
 		Self: Iterator<Item = Result<T, E>> + Sized,
 	{
-		DiscardOk::new(self)
+		DiscardOk::new(self, ())
 	}
 
 	/// Drops any [Err], passing along only [Ok] contents.
@@ -175,7 +174,7 @@ pub trait IterExt: Iterator {
 	where
 		Self: Iterator<Item = Result<T, E>> + Sized,
 	{
-		DiscardError::new(self)
+		DiscardError::new(self, ())
 	}
 
 	/// Drops any [None], passing along only [Some] contents.
