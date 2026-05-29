@@ -58,10 +58,11 @@ where
 	fn next(&mut self) -> Option<Self::Item> {
 		for val in self.inner_iter.by_ref() {
 			match self.f.call(val) {
-				Some(mapped) => return Some(mapped),
 				None => continue,
+				mapped => return mapped,
 			}
 		}
+
 		None
 	}
 
@@ -71,9 +72,9 @@ where
 	}
 }
 
-impl<N, T, E, F> DoubleEndedIterator for DiscardSpecialCase<N, F>
+impl<T, N, F> DoubleEndedIterator for DiscardSpecialCase<N, F>
 where
-	N: DoubleEndedIterator<Item = Result<T, E>>,
+	N: DoubleEndedIterator<Item = T>,
 	F: DiscardSpecialCaseFn<N::Item>,
 {
 	fn next_back(&mut self) -> Option<Self::Item> {
@@ -83,11 +84,17 @@ where
 				None => continue,
 			}
 		}
+
 		None
 	}
 }
 
-impl<N, T, E> FusedIterator for DiscardError<N> where N: FusedIterator<Item = Result<T, E>> {}
+impl<T, N, F> FusedIterator for DiscardSpecialCase<N, F>
+where
+	N: FusedIterator<Item = T>,
+	F: DiscardSpecialCaseFn<T>,
+{
+}
 
 pub trait DiscardSpecialCaseFn<T> {
 	type Out;

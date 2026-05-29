@@ -30,9 +30,9 @@ where
 	}
 }
 
-impl<N, T, E, F> DoubleEndedIterator for InspectSpecialCase<N, F>
+impl<T, N, F> DoubleEndedIterator for InspectSpecialCase<N, F>
 where
-	N: DoubleEndedIterator<Item = Result<T, E>>,
+	N: DoubleEndedIterator<Item = T>,
 	F: InspectSpecialCaseFn<N::Item>,
 {
 	fn next_back(&mut self) -> Option<Self::Item> {
@@ -42,9 +42,9 @@ where
 	}
 }
 
-impl<N, T, E, F> ExactSizeIterator for InspectSpecialCase<N, F>
+impl<T, N, F> ExactSizeIterator for InspectSpecialCase<N, F>
 where
-	N: ExactSizeIterator<Item = Result<T, E>>,
+	N: ExactSizeIterator<Item = T>,
 	F: InspectSpecialCaseFn<N::Item>,
 {
 	#[inline]
@@ -53,10 +53,10 @@ where
 	}
 }
 
-impl<N, T, E, F> FusedIterator for InspectError<N, F>
+impl<T, N, F> FusedIterator for InspectSpecialCase<N, F>
 where
-	N: FusedIterator<Item = Result<T, E>>,
-	F: FnMut(&E),
+	N: FusedIterator<Item = T>,
+	F: InspectSpecialCaseFn<N::Item>,
 {
 }
 
