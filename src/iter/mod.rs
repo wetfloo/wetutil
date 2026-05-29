@@ -36,12 +36,12 @@ pub trait IterExt: Iterator {
 	/// assert_eq!(vec![1, 3, 4], inspect_storage);
 	/// ```
 	#[inline]
-	fn inspect_ok<T, E, F>(self, inspect: F) -> InspectOk<Self, F>
+	fn inspect_ok<T, E, F>(self, f: F) -> InspectOk<Self, F>
 	where
 		Self: Iterator<Item = Result<T, E>> + Sized,
 		F: FnMut(&T),
 	{
-		InspectOk::new(self, inspect)
+		InspectOk::new(self, f)
 	}
 
 	/// Allows you to inspect any [Err] contents without modifying the iterator.
@@ -73,12 +73,12 @@ pub trait IterExt: Iterator {
 	/// assert_eq!(vec![2, 5, 6], inspect_storage);
 	/// ```
 	#[inline]
-	fn inspect_err<T, E, F>(self, inspect: F) -> InspectError<Self, F>
+	fn inspect_err<T, E, F>(self, f: F) -> InspectError<Self, F>
 	where
 		Self: Iterator<Item = Result<T, E>> + Sized,
 		F: FnMut(&E),
 	{
-		InspectError::new(self, inspect)
+		InspectError::new(self, f)
 	}
 
 	/// Allows you to inspect any [Some] contents without modifying the iterator.
@@ -110,12 +110,12 @@ pub trait IterExt: Iterator {
 	/// assert_eq!(vec![2, 5, 6], inspect_storage);
 	/// ```
 	#[inline]
-	fn inspect_some<T, F>(self, inspect: F) -> InspectSome<Self, F>
+	fn inspect_some<T, F>(self, f: F) -> InspectSome<Self, F>
 	where
 		Self: Iterator<Item = Option<T>> + Sized,
 		F: FnMut(&T),
 	{
-		InspectSome::new(self, inspect)
+		InspectSome::new(self, f)
 	}
 
 	/// Drops any [Ok], passing along only [Err] contents.
