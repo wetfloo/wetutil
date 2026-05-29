@@ -134,7 +134,6 @@ impl<N, F> InspectSome<N, F> {
 	}
 }
 
-
 pub struct InspectSpecialCaseFnSome<F>(F);
 
 impl<T, F> InspectSpecialCaseFn<Option<T>> for InspectSpecialCaseFnSome<F>
