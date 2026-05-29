@@ -1,8 +1,10 @@
+mod consume;
 mod discard;
 mod inspect;
 
 use crate::iter::discard::{DiscardError, DiscardNone, DiscardOk};
 use inspect::{InspectError, InspectOk, InspectSome};
+use consume::{ConsumeError, ConsumeOk, ConsumeSome};
 
 pub trait IterExt: Iterator {
 	/// Allows you to inspect any [Ok] contents without modifying the iterator.
@@ -204,6 +206,15 @@ pub trait IterExt: Iterator {
 		Self: Iterator<Item = Option<T>> + Sized,
 	{
 		DiscardNone::new(self)
+	}
+
+	#[inline]
+	fn consume_ok<T, E, F>(self, inspect: F) -> ConsumeOk<Self, F>
+	where
+		Self: Iterator<Item = Result<T, E>> + Sized,
+		F : FnMut(T),
+	{
+		todo!()
 	}
 }
 
