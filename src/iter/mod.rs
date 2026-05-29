@@ -208,6 +208,32 @@ pub trait IterExt: Iterator {
 		DiscardNone::new(self)
 	}
 
+	/// Passes any contents of [Ok] to `f`,
+	/// returning an [Iterator] of [Err] contents.
+	///
+	/// ```
+	/// # use wetutil::iter::IterExt;
+	/// let results: [Result<u8, u8>; _] = [
+	///     Ok(1),
+	///     Err(2),
+	///     Ok(3),
+	///     Ok(4),
+	///     Err(5),
+	///     Err(6),
+	/// ];
+	/// let mut consumed_values = Vec::new();
+	///
+	/// let mut filtered_iter = results
+	///     .into_iter()
+	///     .consume_ok(|v| consumed_values.push(v));
+	///
+	/// assert_eq!(Some(2), filtered_iter.next());
+	/// assert_eq!(Some(5), filtered_iter.next());
+	/// assert_eq!(Some(6), filtered_iter.next());
+	/// assert_eq!(None, filtered_iter.next());
+	///
+	/// assert_eq!(vec![1, 3, 4], consumed_values);
+	/// ```
 	#[inline]
 	fn consume_ok<T, E, F>(self, f: F) -> ConsumeOk<Self, F>
 	where
@@ -216,7 +242,32 @@ pub trait IterExt: Iterator {
 	{
 		ConsumeOk::new(self, f)
 	}
-
+	/// Passes any contents of [Err] to `f`,
+	/// returning an [Iterator] of [Ok] contents.
+	///
+	/// ```
+	/// # use wetutil::iter::IterExt;
+	/// let results: [Result<u8, u8>; _] = [
+	///     Ok(1),
+	///     Err(2),
+	///     Ok(3),
+	///     Ok(4),
+	///     Err(5),
+	///     Err(6),
+	/// ];
+	/// let mut consumed_values = Vec::new();
+	///
+	/// let mut filtered_iter = results
+	///     .into_iter()
+	///     .consume_err(|v| consumed_values.push(v));
+	///
+	/// assert_eq!(Some(1), filtered_iter.next());
+	/// assert_eq!(Some(3), filtered_iter.next());
+	/// assert_eq!(Some(4), filtered_iter.next());
+	/// assert_eq!(None, filtered_iter.next());
+	///
+	/// assert_eq!(vec![2, 5, 6], consumed_values);
+	/// ```
 	#[inline]
 	fn consume_err<T, E, F>(self, f: F) -> ConsumeError<Self, F>
 	where
