@@ -60,6 +60,10 @@ where
 {
 }
 
+pub(crate) trait InspectSpecialCaseFn<T> {
+	fn call(&mut self, val: &T);
+}
+
 impl<N, F> InspectOk<N, F> {
 	#[inline]
 	pub(crate) fn new<T, E>(inner_iter: N, f: F) -> Self
@@ -70,6 +74,20 @@ impl<N, F> InspectOk<N, F> {
 		Self {
 			inner_iter,
 			f: InspectSpecialCaseFnOk(f),
+		}
+	}
+}
+
+pub struct InspectSpecialCaseFnOk<F>(F);
+
+impl<T, E, F> InspectSpecialCaseFn<Result<T, E>> for InspectSpecialCaseFnOk<F>
+where
+	F: FnMut(&T),
+{
+	#[inline]
+	fn call(&mut self, val: &Result<T, E>) {
+		if let Ok(v) = val.as_ref() {
+			self.0(v)
 		}
 	}
 }
@@ -88,6 +106,20 @@ impl<N, F> InspectError<N, F> {
 	}
 }
 
+pub struct InspectSpecialCaseFnError<F>(F);
+
+impl<T, E, F> InspectSpecialCaseFn<Result<T, E>> for InspectSpecialCaseFnError<F>
+where
+	F: FnMut(&E),
+{
+	#[inline]
+	fn call(&mut self, val: &Result<T, E>) {
+		if let Err(e) = val.as_ref() {
+			self.0(e)
+		}
+	}
+}
+
 impl<N, F> InspectSome<N, F> {
 	#[inline]
 	pub(crate) fn new<T>(inner_iter: N, f: F) -> Self
@@ -102,37 +134,6 @@ impl<N, F> InspectSome<N, F> {
 	}
 }
 
-pub(crate) trait InspectSpecialCaseFn<T> {
-	fn call(&mut self, val: &T);
-}
-
-pub struct InspectSpecialCaseFnOk<F>(F);
-
-impl<T, E, F> InspectSpecialCaseFn<Result<T, E>> for InspectSpecialCaseFnOk<F>
-where
-	F: FnMut(&T),
-{
-	#[inline]
-	fn call(&mut self, val: &Result<T, E>) {
-		if let Ok(v) = val.as_ref() {
-			self.0(v)
-		}
-	}
-}
-
-pub struct InspectSpecialCaseFnError<F>(F);
-
-impl<T, E, F> InspectSpecialCaseFn<Result<T, E>> for InspectSpecialCaseFnError<F>
-where
-	F: FnMut(&E),
-{
-	#[inline]
-	fn call(&mut self, val: &Result<T, E>) {
-		if let Err(e) = val.as_ref() {
-			self.0(e)
-		}
-	}
-}
 
 pub struct InspectSpecialCaseFnSome<F>(F);
 

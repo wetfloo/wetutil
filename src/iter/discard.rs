@@ -9,45 +9,6 @@ pub struct DiscardSpecialCase<N, F> {
 	f: F,
 }
 
-impl<N> DiscardOk<N> {
-	#[inline]
-	pub(crate) fn new<T, E>(inner_iter: N) -> Self
-	where
-		N: Iterator<Item = Result<T, E>>,
-	{
-		Self {
-			inner_iter,
-			f: DiscardSpecialCaseFnOk,
-		}
-	}
-}
-
-impl<N> DiscardError<N> {
-	#[inline]
-	pub(crate) fn new<T, E>(inner_iter: N) -> Self
-	where
-		N: Iterator<Item = Result<T, E>>,
-	{
-		Self {
-			inner_iter,
-			f: DiscardSpecialCaseFnError,
-		}
-	}
-}
-
-impl<N> DiscardNone<N> {
-	#[inline]
-	pub(crate) fn new<T>(inner_iter: N) -> Self
-	where
-		N: Iterator<Item = Option<T>>,
-	{
-		Self {
-			inner_iter,
-			f: DiscardSpecialCaseFnNone,
-		}
-	}
-}
-
 impl<N, F> Iterator for DiscardSpecialCase<N, F>
 where
 	N: Iterator,
@@ -102,6 +63,19 @@ pub trait DiscardSpecialCaseFn<T> {
 	fn call(&mut self, val: T) -> Option<Self::Out>;
 }
 
+impl<N> DiscardOk<N> {
+	#[inline]
+	pub(crate) fn new<T, E>(inner_iter: N) -> Self
+	where
+		N: Iterator<Item = Result<T, E>>,
+	{
+		Self {
+			inner_iter,
+			f: DiscardSpecialCaseFnOk,
+		}
+	}
+}
+
 pub struct DiscardSpecialCaseFnOk;
 
 impl<T, E> DiscardSpecialCaseFn<Result<T, E>> for DiscardSpecialCaseFnOk {
@@ -113,6 +87,19 @@ impl<T, E> DiscardSpecialCaseFn<Result<T, E>> for DiscardSpecialCaseFnOk {
 	}
 }
 
+impl<N> DiscardError<N> {
+	#[inline]
+	pub(crate) fn new<T, E>(inner_iter: N) -> Self
+	where
+		N: Iterator<Item = Result<T, E>>,
+	{
+		Self {
+			inner_iter,
+			f: DiscardSpecialCaseFnError,
+		}
+	}
+}
+
 pub struct DiscardSpecialCaseFnError;
 
 impl<T, E> DiscardSpecialCaseFn<Result<T, E>> for DiscardSpecialCaseFnError {
@@ -121,6 +108,19 @@ impl<T, E> DiscardSpecialCaseFn<Result<T, E>> for DiscardSpecialCaseFnError {
 	#[inline]
 	fn call(&mut self, val: Result<T, E>) -> Option<Self::Out> {
 		val.ok()
+	}
+}
+
+impl<N> DiscardNone<N> {
+	#[inline]
+	pub(crate) fn new<T>(inner_iter: N) -> Self
+	where
+		N: Iterator<Item = Option<T>>,
+	{
+		Self {
+			inner_iter,
+			f: DiscardSpecialCaseFnNone,
+		}
 	}
 }
 
