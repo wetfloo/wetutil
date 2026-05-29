@@ -141,11 +141,11 @@ where
 	#[inline]
 	fn call(&mut self, val: Result<T, E>) -> Option<Self::Unconsumed> {
 		match val {
+			Ok(v) => Some(v),
 			Err(e) => {
 				self.0(e);
 				None
 			},
-			Ok(v) => Some(v),
 		}
 	}
 }
