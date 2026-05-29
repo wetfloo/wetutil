@@ -1,8 +1,8 @@
 mod consume;
 mod inspect;
 
-use crate::iter::consume::{DiscardError, DiscardNone, DiscardOk};
-use consume::{ConsumeError, ConsumeOk};
+use crate::iter::consume::{DiscardNone, DiscardResultErr, DiscardResultOk};
+use consume::{ConsumeResultErr, ConsumeResultOk};
 use inspect::{InspectError, InspectOk, InspectSome};
 
 pub trait IterExt: Iterator {
@@ -140,11 +140,11 @@ pub trait IterExt: Iterator {
 	/// assert_eq!(None, filtered_iter.next());
 	/// ```
 	#[inline]
-	fn discard_ok<T, E>(self) -> DiscardOk<Self>
+	fn discard_ok<T, E>(self) -> DiscardResultOk<Self>
 	where
 		Self: Iterator<Item = Result<T, E>> + Sized,
 	{
-		DiscardOk::new(self, ())
+		DiscardResultOk::new(self, ())
 	}
 
 	/// Drops any [Err], passing along only [Ok] contents.
@@ -170,11 +170,11 @@ pub trait IterExt: Iterator {
 	/// assert_eq!(None, filtered_iter.next());
 	/// ```
 	#[inline]
-	fn discard_err<T, E>(self) -> DiscardError<Self>
+	fn discard_err<T, E>(self) -> DiscardResultErr<Self>
 	where
 		Self: Iterator<Item = Result<T, E>> + Sized,
 	{
-		DiscardError::new(self, ())
+		DiscardResultErr::new(self, ())
 	}
 
 	/// Drops any [None], passing along only [Some] contents.
@@ -234,12 +234,12 @@ pub trait IterExt: Iterator {
 	/// assert_eq!(vec![1, 3, 4], consumed_values);
 	/// ```
 	#[inline]
-	fn consume_ok<T, E, F>(self, f: F) -> ConsumeOk<Self, F>
+	fn consume_ok<T, E, F>(self, f: F) -> ConsumeResultOk<Self, F>
 	where
 		Self: Iterator<Item = Result<T, E>> + Sized,
 		F: FnMut(T),
 	{
-		ConsumeOk::new(self, f)
+		ConsumeResultOk::new(self, f)
 	}
 	/// Passes any contents of [Err] to `f`,
 	/// returning an [Iterator] of [Ok] contents.
@@ -268,12 +268,12 @@ pub trait IterExt: Iterator {
 	/// assert_eq!(vec![2, 5, 6], consumed_values);
 	/// ```
 	#[inline]
-	fn consume_err<T, E, F>(self, f: F) -> ConsumeError<Self, F>
+	fn consume_err<T, E, F>(self, f: F) -> ConsumeResultErr<Self, F>
 	where
 		Self: Iterator<Item = Result<T, E>> + Sized,
 		F: FnMut(E),
 	{
-		ConsumeError::new(self, f)
+		ConsumeResultErr::new(self, f)
 	}
 }
 

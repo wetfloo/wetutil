@@ -1,12 +1,12 @@
 use std::iter::FusedIterator;
 
-pub type ConsumeOk<N, F> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnOk<F>>;
-pub type ConsumeError<N, F> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnError<F>>;
-pub type ConsumeNone<N> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnNone>;
+pub type ConsumeResultOk<N, F> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnResultOk<F>>;
+pub type ConsumeResultErr<N, F> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnResultErr<F>>;
+pub type ConsumeOptionNone<N> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnOptionNone>;
 
-pub type DiscardOk<N> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnOk<()>>;
-pub type DiscardError<N> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnError<()>>;
-pub type DiscardNone<N> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnNone>;
+pub type DiscardResultOk<N> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnResultOk<()>>;
+pub type DiscardResultErr<N> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnResultErr<()>>;
+pub type DiscardNone<N> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnOptionNone>;
 
 pub struct ConsumeSpecialCase<N, F> {
 	inner_iter: N,
@@ -75,7 +75,7 @@ pub trait ConsumeSpecialCaseFn<T> {
 	fn call(&mut self, val: T) -> Option<Self::Unconsumed>;
 }
 
-impl<N, F> ConsumeOk<N, F> {
+impl<N, F> ConsumeResultOk<N, F> {
 	#[inline]
 	pub(crate) fn new<T, E>(inner_iter: N, f: F) -> Self
 	where
@@ -83,14 +83,14 @@ impl<N, F> ConsumeOk<N, F> {
 	{
 		Self {
 			inner_iter,
-			f: ConsumeSpecialCaseFnOk(f),
+			f: ConsumeSpecialCaseFnResultOk(f),
 		}
 	}
 }
 
-pub struct ConsumeSpecialCaseFnOk<F>(F);
+pub struct ConsumeSpecialCaseFnResultOk<F>(F);
 
-impl<T, E, F> ConsumeSpecialCaseFn<Result<T, E>> for ConsumeSpecialCaseFnOk<F>
+impl<T, E, F> ConsumeSpecialCaseFn<Result<T, E>> for ConsumeSpecialCaseFnResultOk<F>
 where
 	F: FnMut(T),
 {
@@ -108,7 +108,7 @@ where
 	}
 }
 
-impl<T, E> ConsumeSpecialCaseFn<Result<T, E>> for ConsumeSpecialCaseFnOk<()> {
+impl<T, E> ConsumeSpecialCaseFn<Result<T, E>> for ConsumeSpecialCaseFnResultOk<()> {
 	type Unconsumed = E;
 
 	#[inline]
@@ -117,7 +117,7 @@ impl<T, E> ConsumeSpecialCaseFn<Result<T, E>> for ConsumeSpecialCaseFnOk<()> {
 	}
 }
 
-impl<N, F> ConsumeError<N, F> {
+impl<N, F> ConsumeResultErr<N, F> {
 	#[inline]
 	pub(crate) fn new<T, E>(inner_iter: N, f: F) -> Self
 	where
@@ -125,14 +125,14 @@ impl<N, F> ConsumeError<N, F> {
 	{
 		Self {
 			inner_iter,
-			f: ConsumeSpecialCaseFnError(f),
+			f: ConsumeSpecialCaseFnResultErr(f),
 		}
 	}
 }
 
-pub struct ConsumeSpecialCaseFnError<F>(F);
+pub struct ConsumeSpecialCaseFnResultErr<F>(F);
 
-impl<T, E, F> ConsumeSpecialCaseFn<Result<T, E>> for ConsumeSpecialCaseFnError<F>
+impl<T, E, F> ConsumeSpecialCaseFn<Result<T, E>> for ConsumeSpecialCaseFnResultErr<F>
 where
 	F: FnMut(E),
 {
@@ -150,7 +150,7 @@ where
 	}
 }
 
-impl<T, E> ConsumeSpecialCaseFn<Result<T, E>> for ConsumeSpecialCaseFnError<()> {
+impl<T, E> ConsumeSpecialCaseFn<Result<T, E>> for ConsumeSpecialCaseFnResultErr<()> {
 	type Unconsumed = T;
 
 	#[inline]
@@ -159,7 +159,7 @@ impl<T, E> ConsumeSpecialCaseFn<Result<T, E>> for ConsumeSpecialCaseFnError<()> 
 	}
 }
 
-impl<N> ConsumeNone<N> {
+impl<N> ConsumeOptionNone<N> {
 	#[inline]
 	pub(crate) fn new<T>(inner_iter: N) -> Self
 	where
@@ -167,14 +167,14 @@ impl<N> ConsumeNone<N> {
 	{
 		Self {
 			inner_iter,
-			f: ConsumeSpecialCaseFnNone,
+			f: ConsumeSpecialCaseFnOptionNone,
 		}
 	}
 }
 
-pub struct ConsumeSpecialCaseFnNone;
+pub struct ConsumeSpecialCaseFnOptionNone;
 
-impl<T> ConsumeSpecialCaseFn<Option<T>> for ConsumeSpecialCaseFnNone {
+impl<T> ConsumeSpecialCaseFn<Option<T>> for ConsumeSpecialCaseFnOptionNone {
 	type Unconsumed = T;
 
 	#[inline]
