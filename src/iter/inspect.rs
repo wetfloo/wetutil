@@ -4,6 +4,8 @@ pub type InspectOk<N, F> = InspectSpecialCase<N, InspectSpecialCaseFnOk<F>>;
 pub type InspectError<N, F> = InspectSpecialCase<N, InspectSpecialCaseFnError<F>>;
 pub type InspectSome<N, F> = InspectSpecialCase<N, InspectSpecialCaseFnSome<F>>;
 
+#[derive(Clone, Debug)]
+#[must_use = "iterator adaptors are lazy and do nothing unless consumed"]
 pub struct InspectSpecialCase<N, F> {
 	inner_iter: N,
 	/// Function that will be called on every [Iterator::next] call.
