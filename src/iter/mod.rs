@@ -25,19 +25,19 @@ pub trait IterExt: Iterator {
 	/// #
 	/// # let iter = std::iter::empty::<Result<Value, Error>>();
 	/// #
-	/// fn inspect_action<T : ?Sized>(value: &T) {
-	///     // some logging here...
-	/// }
-	///
 	/// let iter = iter.inspect(|res| if let Ok(v) = res.as_ref() {
 	///     inspect_action(v);
 	/// });
 	///
-	/// // same as
+	/// // is the same as
 	///
 	/// let iter = iter.inspect_ok(|v| {
 	///     inspect_action(v);
 	/// });
+	///
+	/// fn inspect_action<T : ?Sized>(value: &T) {
+	///     // some logging here...
+	/// }
 	/// ```
 	///
 	/// # Examples
