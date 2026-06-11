@@ -84,7 +84,7 @@ where
 }
 
 /// Convert [`Result`]'s [`Err`] value into another
-/// using `E2`'s [`From<E1>`] implementation leaving [`Err`] untouched.
+/// using `E2`'s [`From<E1>`] implementation leaving [`Ok`] untouched.
 ///
 /// For a nicer, more convenient conversion, see [`ResultErrInto`].
 ///
