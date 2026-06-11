@@ -7,5 +7,3 @@ edition = "2024"
 license = "MIT"
 homepage = "https://github.com/wetfloo/wetutil"
 repository = "https://github.com/wetfloo/wetutil"
-
-[dependencies]
