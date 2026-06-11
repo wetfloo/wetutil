@@ -20,11 +20,11 @@ pub trait IterExt: Iterator {
 	/// ```
 	/// # use wetutil::iter::IterExt as _;
 	/// #
-	/// # struct Value;
-	/// # struct Error;
-	/// #
 	/// # let iter = std::iter::empty::<Result<Value, Error>>();
 	/// #
+	/// struct Value;
+	/// struct Error;
+	///
 	/// let iter = iter.inspect(|res| if let Ok(v) = res.as_ref() {
 	///     inspect_action(v);
 	/// });
@@ -35,7 +35,7 @@ pub trait IterExt: Iterator {
 	///     inspect_action(v);
 	/// });
 	///
-	/// fn inspect_action<T : ?Sized>(value: &T) {
+	/// fn inspect_action(value: &Value) {
 	///     // some logging here...
 	/// }
 	/// ```
