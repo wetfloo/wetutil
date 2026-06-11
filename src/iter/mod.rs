@@ -16,6 +16,8 @@ use inspect::{InspectError, InspectOk, InspectSome};
 pub trait IterExt: Iterator {
 	/// Allows you to inspect any [`Ok`] contents without modifying the iterator.
 	///
+	/// # Examples
+	///
 	/// ```
 	/// # use wetutil::iter::IterExt;
 	/// let results: [Result<u8, u8>; _] = [
@@ -52,6 +54,8 @@ pub trait IterExt: Iterator {
 	}
 
 	/// Allows you to inspect any [`Err`] contents without modifying the iterator.
+	///
+	/// # Examples
 	///
 	/// ```
 	/// # use wetutil::iter::IterExt;
@@ -90,6 +94,8 @@ pub trait IterExt: Iterator {
 
 	/// Allows you to inspect any [`Some`] contents without modifying the iterator.
 	///
+	/// # Examples
+	///
 	/// ```
 	/// # use wetutil::iter::IterExt;
 	/// let results: [Option<u8>; _] = [
@@ -127,6 +133,8 @@ pub trait IterExt: Iterator {
 
 	/// Drops any [`Ok`], passing along only [`Err`] contents.
 	///
+	/// # Examples
+	///
 	/// ```
 	/// # use wetutil::iter::IterExt;
 	/// let results: [Result<u8, u8>; _] = [
@@ -156,6 +164,8 @@ pub trait IterExt: Iterator {
 	}
 
 	/// Drops any [`Err`], passing along only [`Ok`] contents.
+	///
+	/// # Examples
 	///
 	/// ```
 	/// # use wetutil::iter::IterExt;
@@ -187,6 +197,8 @@ pub trait IterExt: Iterator {
 
 	/// Drops any [`None`], passing along only [`Some`] contents.
 	///
+	/// # Examples
+	///
 	/// ```
 	/// # use wetutil::iter::IterExt;
 	/// let results: [Option<u8>; _] = [
@@ -217,6 +229,8 @@ pub trait IterExt: Iterator {
 
 	/// Passes any contents of [`Ok`] to `f`,
 	/// returning an [`Iterator`] of [`Err`] contents.
+	///
+	/// # Examples
 	///
 	/// ```
 	/// # use wetutil::iter::IterExt;
@@ -251,6 +265,8 @@ pub trait IterExt: Iterator {
 	}
 	/// Passes any contents of [`Err`] to `f`,
 	/// returning an [`Iterator`] of [`Ok`] contents.
+	///
+	/// # Examples
 	///
 	/// ```
 	/// # use wetutil::iter::IterExt;
