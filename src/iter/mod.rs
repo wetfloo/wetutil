@@ -496,6 +496,25 @@ pub trait IterExt: Iterator {
 	/// }
 	/// ```
 	///
+	/// Note that instead of passing a dummy closure like the following,
+	/// you should use [`discard_err`](IterExt::discard_err):
+	///
+	/// ```
+	/// # use wetutil::iter::IterExt as _;
+	/// #
+	/// # let iter = std::iter::empty::<Result<Value, Error>>();
+	/// #
+	/// # struct Value;
+	/// # struct Error;
+	/// #
+	/// // bad!
+	/// for _ in iter.clone().consume_err(|_| ()) {
+	/// }
+	///
+	/// // good!
+	/// for _ in iter.clone().discard_err() {
+	/// }
+	/// ```
 	///
 	/// # Examples
 	///
