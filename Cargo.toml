@@ -1,6 +1,11 @@
 [package]
 name = "wetutil"
+description = "One-stop crate for all the rust features that I'm missing"
 version = "0.1.0"
 edition = "2024"
+
+license = "MIT"
+homepage = "https://github.com/wetfloo/wetutil"
+repository = "https://github.com/wetfloo/wetutil"
 
 [dependencies]
