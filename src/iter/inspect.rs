@@ -1,8 +1,8 @@
 use std::iter::FusedIterator;
 
-pub type InspectOk<N, F> = InspectSpecialCase<N, InspectSpecialCaseFnOk<F>>;
-pub type InspectError<N, F> = InspectSpecialCase<N, InspectSpecialCaseFnError<F>>;
-pub type InspectSome<N, F> = InspectSpecialCase<N, InspectSpecialCaseFnSome<F>>;
+pub(super) type InspectOk<N, F> = InspectSpecialCase<N, InspectSpecialCaseFnOk<F>>;
+pub(super) type InspectError<N, F> = InspectSpecialCase<N, InspectSpecialCaseFnError<F>>;
+pub(super) type InspectSome<N, F> = InspectSpecialCase<N, InspectSpecialCaseFnSome<F>>;
 
 #[derive(Clone, Debug)]
 #[must_use = "iterator adaptors are lazy and do nothing unless consumed"]

@@ -4,6 +4,8 @@
 //! for things like [`Result`] and [`Iterator`].
 //! It's mostly a mish-mash of things that I'm tired of writing in more tedious ways.
 
+#![deny(unreachable_pub)]
+
 pub mod iter;
 pub mod result;
 

@@ -1,12 +1,12 @@
 use std::iter::FusedIterator;
 
-pub type ConsumeResultOk<N, F> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnResultOk<F>>;
-pub type ConsumeResultErr<N, F> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnResultErr<F>>;
-pub type ConsumeOptionNone<N> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnOptionNone>;
+pub(super) type ConsumeResultOk<N, F> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnResultOk<F>>;
+pub(super) type ConsumeResultErr<N, F> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnResultErr<F>>;
+pub(super) type ConsumeOptionNone<N> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnOptionNone>;
 
-pub type DiscardResultOk<N> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnResultOk<()>>;
-pub type DiscardResultErr<N> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnResultErr<()>>;
-pub type DiscardNone<N> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnOptionNone>;
+pub(super) type DiscardResultOk<N> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnResultOk<()>>;
+pub(super) type DiscardResultErr<N> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnResultErr<()>>;
+pub(super) type DiscardNone<N> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnOptionNone>;
 
 #[derive(Clone, Debug)]
 #[must_use = "iterator adaptors are lazy and do nothing unless consumed"]
