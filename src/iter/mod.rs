@@ -44,7 +44,8 @@ pub trait IterExt: Iterator {
 	/// # Examples
 	///
 	/// ```
-	/// # use wetutil::iter::IterExt;
+	/// # use wetutil::iter::IterExt as _;
+	/// #
 	/// let results: [Result<u8, u8>; _] = [
 	///     Ok(1),
 	///     Err(2),
@@ -108,7 +109,8 @@ pub trait IterExt: Iterator {
 	/// # Examples
 	///
 	/// ```
-	/// # use wetutil::iter::IterExt;
+	/// # use wetutil::iter::IterExt as _;
+	/// #
 	/// let results: [Result<u8, u8>; _] = [
 	///     Ok(1),
 	///     Err(2),
@@ -171,7 +173,8 @@ pub trait IterExt: Iterator {
 	/// # Examples
 	///
 	/// ```
-	/// # use wetutil::iter::IterExt;
+	/// # use wetutil::iter::IterExt as _;
+	/// #
 	/// let results: [Option<u8>; _] = [
 	///     None,
 	///     Some(2),
@@ -236,7 +239,8 @@ pub trait IterExt: Iterator {
 	/// # Examples
 	///
 	/// ```
-	/// # use wetutil::iter::IterExt;
+	/// # use wetutil::iter::IterExt as _;
+	/// #
 	/// let results: [Result<u8, u8>; _] = [
 	///     Ok(1),
 	///     Err(2),
@@ -294,7 +298,8 @@ pub trait IterExt: Iterator {
 	/// # Examples
 	///
 	/// ```
-	/// # use wetutil::iter::IterExt;
+	/// # use wetutil::iter::IterExt as _;
+	/// #
 	/// let results: [Result<u8, u8>; _] = [
 	///     Ok(1),
 	///     Err(2),
@@ -348,7 +353,8 @@ pub trait IterExt: Iterator {
 	/// # Examples
 	///
 	/// ```
-	/// # use wetutil::iter::IterExt;
+	/// # use wetutil::iter::IterExt as _;
+	/// #
 	/// let results: [Option<u8>; _] = [
 	///     None,
 	///     Some(2),
@@ -409,30 +415,11 @@ pub trait IterExt: Iterator {
 	/// }
 	/// ```
 	///
-	/// Note that instead of passing a dummy closure like the following,
-	/// you should use [`discard_ok`](IterExt::discard_ok):
+	/// # Examples
 	///
 	/// ```
 	/// # use wetutil::iter::IterExt as _;
 	/// #
-	/// # let iter = std::iter::empty::<Result<Value, Error>>();
-	/// #
-	/// # struct Value;
-	/// # struct Error;
-	/// #
-	/// // bad!
-	/// for _ in iter.clone().consume_ok(|_| ()) {
-	/// }
-	///
-	/// // good!
-	/// for _ in iter.clone().discard_ok() {
-	/// }
-	/// ```
-	///
-	/// # Examples
-	///
-	/// ```
-	/// # use wetutil::iter::IterExt;
 	/// let results: [Result<u8, u8>; _] = [
 	///     Ok(1),
 	///     Err(2),
@@ -453,6 +440,26 @@ pub trait IterExt: Iterator {
 	/// assert_eq!(None, filtered_iter.next());
 	///
 	/// assert_eq!(vec![1, 3, 4], consumed_values);
+	/// ```
+	///
+	/// Note that instead of passing a dummy closure like in the following example,
+	/// you should use [`discard_ok`](IterExt::discard_ok):
+	///
+	/// ```
+	/// # use wetutil::iter::IterExt as _;
+	/// #
+	/// # let iter = std::iter::empty::<Result<Value, Error>>();
+	/// #
+	/// # struct Value;
+	/// # struct Error;
+	/// #
+	/// // bad!
+	/// for _ in iter.clone().consume_ok(|_| ()) {
+	/// }
+	///
+	/// // good!
+	/// for _ in iter.clone().discard_ok() {
+	/// }
 	/// ```
 	#[inline]
 	fn consume_ok<T, E, F>(self, f: F) -> ConsumeResultOk<Self, F>
@@ -496,30 +503,11 @@ pub trait IterExt: Iterator {
 	/// }
 	/// ```
 	///
-	/// Note that instead of passing a dummy closure like the following,
-	/// you should use [`discard_err`](IterExt::discard_err):
+	/// # Examples
 	///
 	/// ```
 	/// # use wetutil::iter::IterExt as _;
 	/// #
-	/// # let iter = std::iter::empty::<Result<Value, Error>>();
-	/// #
-	/// # struct Value;
-	/// # struct Error;
-	/// #
-	/// // bad!
-	/// for _ in iter.clone().consume_err(|_| ()) {
-	/// }
-	///
-	/// // good!
-	/// for _ in iter.clone().discard_err() {
-	/// }
-	/// ```
-	///
-	/// # Examples
-	///
-	/// ```
-	/// # use wetutil::iter::IterExt;
 	/// let results: [Result<u8, u8>; _] = [
 	///     Ok(1),
 	///     Err(2),
@@ -540,6 +528,26 @@ pub trait IterExt: Iterator {
 	/// assert_eq!(None, filtered_iter.next());
 	///
 	/// assert_eq!(vec![2, 5, 6], consumed_values);
+	/// ```
+	///
+	/// Note that instead of passing a dummy closure like in the the following example,
+	/// you should use [`discard_err`](IterExt::discard_err):
+	///
+	/// ```
+	/// # use wetutil::iter::IterExt as _;
+	/// #
+	/// # let iter = std::iter::empty::<Result<Value, Error>>();
+	/// #
+	/// # struct Value;
+	/// # struct Error;
+	/// #
+	/// // bad!
+	/// for _ in iter.clone().consume_err(|_| ()) {
+	/// }
+	///
+	/// // good!
+	/// for _ in iter.clone().discard_err() {
+	/// }
 	/// ```
 	#[inline]
 	fn consume_err<T, E, F>(self, f: F) -> ConsumeResultErr<Self, F>
