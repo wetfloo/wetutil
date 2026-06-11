@@ -454,12 +454,10 @@ pub trait IterExt: Iterator {
 	/// # struct Error;
 	/// #
 	/// // bad!
-	/// for _ in iter.clone().consume_ok(|_| ()) {
-	/// }
+	/// for _ in iter.clone().consume_ok(|_| ()) {}
 	///
 	/// // good!
-	/// for _ in iter.clone().discard_ok() {
-	/// }
+	/// for _ in iter.clone().discard_ok() {}
 	/// ```
 	#[inline]
 	fn consume_ok<T, E, F>(self, f: F) -> ConsumeResultOk<Self, F>
@@ -542,12 +540,10 @@ pub trait IterExt: Iterator {
 	/// # struct Error;
 	/// #
 	/// // bad!
-	/// for _ in iter.clone().consume_err(|_| ()) {
-	/// }
+	/// for _ in iter.clone().consume_err(|_| ()) {}
 	///
 	/// // good!
-	/// for _ in iter.clone().discard_err() {
-	/// }
+	/// for _ in iter.clone().discard_err() {}
 	/// ```
 	#[inline]
 	fn consume_err<T, E, F>(self, f: F) -> ConsumeResultErr<Self, F>
