@@ -23,8 +23,8 @@ pub trait IterExt: Iterator {
 	/// #
 	/// # let iter = std::iter::empty::<Result<Value, Error>>();
 	/// #
+	/// # struct Error;
 	/// struct Value;
-	/// struct Error;
 	///
 	/// let iter = iter.inspect(|res| if let Ok(v) = res.as_ref() {
 	///     inspect_action(v);
@@ -87,7 +87,7 @@ pub trait IterExt: Iterator {
 	/// #
 	/// # let iter = std::iter::empty::<Result<Value, Error>>();
 	/// #
-	/// struct Value;
+	/// # struct Value;
 	/// struct Error;
 	///
 	/// let iter = iter.inspect(|res| if let Err(e) = res.as_ref() {
@@ -214,9 +214,9 @@ pub trait IterExt: Iterator {
 	/// #
 	/// # let iter = std::iter::empty::<Result<Value, Error>>();
 	/// #
-	/// struct Value;
-	/// struct Error;
-	///
+	/// # struct Value;
+	/// # struct Error;
+	/// #
 	/// let mut consumed = Vec::new();
 	///
 	/// for e in iter.clone().filter_map(|res| match res {
