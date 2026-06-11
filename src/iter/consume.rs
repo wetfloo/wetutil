@@ -12,7 +12,7 @@ pub type DiscardNone<N> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnOptionNone>;
 #[must_use = "iterator adaptors are lazy and do nothing unless consumed"]
 pub struct ConsumeSpecialCase<N, F> {
 	inner_iter: N,
-	/// Function that will be called on every [Iterator::next] call.
+	/// Function that will be called on every [`Iterator::next`] call.
 	/// Should only be called if deemed appropriate.
 	f: F,
 }

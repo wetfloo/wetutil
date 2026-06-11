@@ -11,7 +11,7 @@ use consume::{ConsumeResultErr, ConsumeResultOk};
 use inspect::{InspectError, InspectOk, InspectSome};
 
 pub trait IterExt: Iterator {
-	/// Allows you to inspect any [Ok] contents without modifying the iterator.
+	/// Allows you to inspect any [`Ok`] contents without modifying the iterator.
 	///
 	/// ```
 	/// # use wetutil::iter::IterExt;
@@ -48,7 +48,7 @@ pub trait IterExt: Iterator {
 		InspectOk::new(self, f)
 	}
 
-	/// Allows you to inspect any [Err] contents without modifying the iterator.
+	/// Allows you to inspect any [`Err`] contents without modifying the iterator.
 	///
 	/// ```
 	/// # use wetutil::iter::IterExt;
@@ -85,7 +85,7 @@ pub trait IterExt: Iterator {
 		InspectError::new(self, f)
 	}
 
-	/// Allows you to inspect any [Some] contents without modifying the iterator.
+	/// Allows you to inspect any [`Some`] contents without modifying the iterator.
 	///
 	/// ```
 	/// # use wetutil::iter::IterExt;
@@ -122,7 +122,7 @@ pub trait IterExt: Iterator {
 		InspectSome::new(self, f)
 	}
 
-	/// Drops any [Ok], passing along only [Err] contents.
+	/// Drops any [`Ok`], passing along only [`Err`] contents.
 	///
 	/// ```
 	/// # use wetutil::iter::IterExt;
@@ -152,7 +152,7 @@ pub trait IterExt: Iterator {
 		DiscardResultOk::new(self, ())
 	}
 
-	/// Drops any [Err], passing along only [Ok] contents.
+	/// Drops any [`Err`], passing along only [`Ok`] contents.
 	///
 	/// ```
 	/// # use wetutil::iter::IterExt;
@@ -182,7 +182,7 @@ pub trait IterExt: Iterator {
 		DiscardResultErr::new(self, ())
 	}
 
-	/// Drops any [None], passing along only [Some] contents.
+	/// Drops any [`None`], passing along only [`Some`] contents.
 	///
 	/// ```
 	/// # use wetutil::iter::IterExt;
@@ -212,8 +212,8 @@ pub trait IterExt: Iterator {
 		DiscardNone::new(self)
 	}
 
-	/// Passes any contents of [Ok] to `f`,
-	/// returning an [Iterator] of [Err] contents.
+	/// Passes any contents of [`Ok`] to `f`,
+	/// returning an [`Iterator`] of [`Err`] contents.
 	///
 	/// ```
 	/// # use wetutil::iter::IterExt;
@@ -246,8 +246,8 @@ pub trait IterExt: Iterator {
 	{
 		ConsumeResultOk::new(self, f)
 	}
-	/// Passes any contents of [Err] to `f`,
-	/// returning an [Iterator] of [Ok] contents.
+	/// Passes any contents of [`Err`] to `f`,
+	/// returning an [`Iterator`] of [`Ok`] contents.
 	///
 	/// ```
 	/// # use wetutil::iter::IterExt;
