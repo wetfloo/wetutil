@@ -10,6 +10,9 @@ use crate::iter::consume::{DiscardNone, DiscardResultErr, DiscardResultOk};
 use consume::{ConsumeResultErr, ConsumeResultOk};
 use inspect::{InspectError, InspectOk, InspectSome};
 
+/// [`Iterator`] helpers.
+///
+/// See individual method documentation for more details.
 pub trait IterExt: Iterator {
 	/// Allows you to inspect any [`Ok`] contents without modifying the iterator.
 	///
