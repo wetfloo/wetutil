@@ -328,10 +328,9 @@ pub trait IterExt: Iterator {
 	/// ```
 	/// # use wetutil::iter::IterExt as _;
 	/// #
-	/// # let iter = std::iter::empty::<Result<Value, Error>>();
+	/// # let iter = std::iter::empty::<Option<Value>>();
 	/// #
 	/// # struct Value;
-	/// # struct Error;
 	/// #
 	/// let mut consumed = Vec::new();
 	///
@@ -341,7 +340,7 @@ pub trait IterExt: Iterator {
 	///
 	/// // is the same as:
 	///
-	/// for v in iter.clone().filter_map() {
+	/// for v in iter.clone().discard_none() {
 	///     consumed.push(v);
 	/// }
 	/// ```
