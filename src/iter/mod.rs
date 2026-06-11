@@ -80,6 +80,31 @@ pub trait IterExt: Iterator {
 
 	/// Allows you to inspect any [`Err`] contents without modifying the iterator.
 	///
+	/// This is equivalent to using [`Iterator::inspect`] and matching on [`Err`] manually:
+	///
+	/// ```
+	/// # use wetutil::iter::IterExt as _;
+	/// #
+	/// # let iter = std::iter::empty::<Result<Value, Error>>();
+	/// #
+	/// struct Value;
+	/// struct Error;
+	///
+	/// let iter = iter.inspect(|res| if let Err(e) = res.as_ref() {
+	///     inspect_action(e);
+	/// });
+	///
+	/// // is the same as
+	///
+	/// let iter = iter.inspect_err(|e| {
+	///     inspect_action(e);
+	/// });
+	///
+	/// fn inspect_action(_: &Error) {
+	///     // some logging here...
+	/// }
+	/// ```
+	///
 	/// # Examples
 	///
 	/// ```
@@ -119,6 +144,30 @@ pub trait IterExt: Iterator {
 
 	/// Allows you to inspect any [`Some`] contents without modifying the iterator.
 	///
+	/// This is equivalent to using [`Iterator::inspect`] and matching on [`Some`] manually:
+	///
+	/// ```
+	/// # use wetutil::iter::IterExt as _;
+	/// #
+	/// # let iter = std::iter::empty::<Option<Value>>();
+	/// #
+	/// struct Value;
+	///
+	/// let iter = iter.inspect(|res| if let Some(v) = res.as_ref() {
+	///     inspect_action(v);
+	/// });
+	///
+	/// // is the same as
+	///
+	/// let iter = iter.inspect_some(|v| {
+	///     inspect_action(v);
+	/// });
+	///
+	/// fn inspect_action(_: &Value) {
+	///     // some logging here...
+	/// }
+	/// ```
+	///
 	/// # Examples
 	///
 	/// ```
@@ -157,6 +206,32 @@ pub trait IterExt: Iterator {
 	}
 
 	/// Drops any [`Ok`], passing along only [`Err`] contents.
+	///
+	/// This is equivalent to using [`Iterator::filter_map`] and only allowing [`Err`] through:
+	///
+	/// ```
+	/// # use wetutil::iter::IterExt as _;
+	/// #
+	/// # let iter = std::iter::empty::<Result<Value, Error>>();
+	/// #
+	/// struct Value;
+	/// struct Error;
+	///
+	/// let mut consumed = Vec::new();
+	///
+	/// for e in iter.clone().filter_map(|res| match res {
+	///     Err(e) => Some(e),
+	///     Ok(_) => None,
+	/// }) {
+	///     consumed.push(e);
+	/// }
+	///
+	/// // is the same as
+	///
+	/// for e in iter.clone().discard_ok() {
+	///     consumed.push(e);
+	/// }
+	/// ```
 	///
 	/// # Examples
 	///
