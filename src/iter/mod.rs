@@ -409,6 +409,26 @@ pub trait IterExt: Iterator {
 	/// }
 	/// ```
 	///
+	/// Note that instead of passing a dummy closure like the following,
+	/// you should use [`discard_ok`](IterExt::discard_ok):
+	///
+	/// ```
+	/// # use wetutil::iter::IterExt as _;
+	/// #
+	/// # let iter = std::iter::empty::<Result<Value, Error>>();
+	/// #
+	/// # struct Value;
+	/// # struct Error;
+	/// #
+	/// // bad!
+	/// for _ in iter.clone().consume_ok(|_| ()) {
+	/// }
+	///
+	/// // good!
+	/// for _ in iter.clone().discard_ok() {
+	/// }
+	/// ```
+	///
 	/// # Examples
 	///
 	/// ```
