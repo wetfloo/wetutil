@@ -6,9 +6,15 @@
 mod consume;
 mod inspect;
 
-use crate::iter::consume::{DiscardNone, DiscardResultErr, DiscardResultOk};
-use consume::{ConsumeResultErr, ConsumeResultOk};
-use inspect::{InspectError, InspectOk, InspectSome};
+use consume::ConsumeResultErr;
+use consume::ConsumeResultOk;
+use inspect::InspectError;
+use inspect::InspectOk;
+use inspect::InspectSome;
+
+use crate::iter::consume::DiscardNone;
+use crate::iter::consume::DiscardResultErr;
+use crate::iter::consume::DiscardResultOk;
 
 /// [`Iterator`] helpers.
 ///
