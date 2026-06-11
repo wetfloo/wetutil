@@ -388,9 +388,9 @@ pub trait IterExt: Iterator {
 	/// #
 	/// # struct Value;
 	/// # struct Error;
-	///
-	/// let mut consumed_err = Vec::new();
+	/// #
 	/// let mut consumed_ok = Vec::new();
+	/// let mut consumed_err = Vec::new();
 	///
 	/// for e in iter.clone().filter_map(|res| match res {
 	///     Err(e) => Some(e),
@@ -444,6 +444,38 @@ pub trait IterExt: Iterator {
 	}
 	/// Passes any contents of [`Err`] to `f`,
 	/// returning an [`Iterator`] of [`Ok`] contents.
+	///
+	/// This is equivalent to using [`Iterator::filter_map`] and only allowing [`Ok`] through,
+	/// consuming any [`Err`] in progress:
+	///
+	/// ```
+	/// # use wetutil::iter::IterExt as _;
+	/// #
+	/// # let iter = std::iter::empty::<Result<Value, Error>>();
+	/// #
+	/// # struct Value;
+	/// # struct Error;
+	/// #
+	/// let mut consumed_ok = Vec::new();
+	/// let mut consumed_err = Vec::new();
+	///
+	/// for v in iter.clone().filter_map(|res| match res {
+	///     Ok(v) => Some(v),
+	///     Err(e) => {
+	///         consumed_err.push(e);
+	///         None
+	///     }
+	/// }) {
+	///     consumed_ok.push(v);
+	/// }
+	///
+	/// // is the same as:
+	///
+	/// for v in iter.clone().consume_err(|e| consumed_err.push(e)) {
+	///     consumed_ok.push(v);
+	/// }
+	/// ```
+	///
 	///
 	/// # Examples
 	///
