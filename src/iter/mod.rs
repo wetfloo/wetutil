@@ -18,29 +18,21 @@ pub trait IterExt: Iterator {
 	/// This is equivalent to using [`Iterator::inspect`] and matching on [`Ok`] manually:
 	///
 	/// ```
+	/// # use wetutil::iter::IterExt as _;
+	/// #
 	/// # let iter = std::iter::empty::<Result<(), ()>>();
 	/// #
-	/// fn inspect_action<T>(value: &T) where T : ?Sized {
+	/// fn inspect_action<T : ?Sized>(value: &T) {
 	///     // some logging here...
 	/// }
 	///
-	/// iter.inspect(|res| if let Ok(v) = res.as_ref() {
+	/// let iter = iter.inspect(|res| if let Ok(v) = res.as_ref() {
 	///     inspect_action(v);
 	/// });
-	/// ```
 	///
-	/// is the same as
+	/// // same as
 	///
-	/// ```
-	/// # use wetutil::iter::IterExt;
-	/// #
-	/// # let iter = std::iter::empty::<Result<(), ()>>();
-	/// #
-	/// fn inspect_action<T>(value: &T) where T : ?Sized {
-	///     // some logging here...
-	/// }
-	///
-	/// iter.inspect_ok(|v| {
+	/// let iter = iter.inspect_ok(|v| {
 	///     inspect_action(v);
 	/// });
 	/// ```
