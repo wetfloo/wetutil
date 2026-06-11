@@ -30,7 +30,7 @@ pub trait IterExt: Iterator {
 	///     inspect_action(v);
 	/// });
 	///
-	/// // is the same as
+	/// // is the same as:
 	///
 	/// let iter = iter.inspect_ok(|v| {
 	///     inspect_action(v);
@@ -94,7 +94,7 @@ pub trait IterExt: Iterator {
 	///     inspect_action(e);
 	/// });
 	///
-	/// // is the same as
+	/// // is the same as:
 	///
 	/// let iter = iter.inspect_err(|e| {
 	///     inspect_action(e);
@@ -157,7 +157,7 @@ pub trait IterExt: Iterator {
 	///     inspect_action(v);
 	/// });
 	///
-	/// // is the same as
+	/// // is the same as:
 	///
 	/// let iter = iter.inspect_some(|v| {
 	///     inspect_action(v);
@@ -226,7 +226,7 @@ pub trait IterExt: Iterator {
 	///     consumed.push(e);
 	/// }
 	///
-	/// // is the same as
+	/// // is the same as:
 	///
 	/// for e in iter.clone().discard_ok() {
 	///     consumed.push(e);
