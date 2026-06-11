@@ -15,6 +15,7 @@ use inspect::{InspectError, InspectOk, InspectSome};
 /// See individual method documentation for more details.
 pub trait IterExt: Iterator {
 	/// Allows you to inspect any [`Ok`] contents without modifying the iterator.
+	///
 	/// This is equivalent to using [`Iterator::inspect`] and matching on [`Ok`] manually:
 	///
 	/// ```
