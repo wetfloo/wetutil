@@ -30,6 +30,7 @@
 /// ```
 pub trait ResultOkFrom<T1, T2, E1> {
 	/// Performs the conversion between [`Ok`] values.
+	/// For more details, see the [trait's](ResultOkFrom) documentation.
 	fn ok_from(val: Result<T1, E1>) -> Self;
 }
 
@@ -70,6 +71,7 @@ where
 /// ```
 pub trait ResultOkInto<T1, T2, E1> {
 	/// Performs the conversion between [`Ok`] values.
+	/// For more details, see the [trait's](ResultOkInto) documentation.
 	fn ok_into(self) -> Result<T2, E1>;
 }
 
@@ -110,6 +112,7 @@ where
 /// ```
 pub trait ResultErrFrom<T1, E1, E2> {
 	/// Performs the conversion between [`Err`] values.
+	/// For more details, see the [trait's](ResultErrFrom) documentation.
 	fn err_from(val: Result<T1, E1>) -> Self;
 }
 
@@ -153,6 +156,7 @@ where
 /// ```
 pub trait ResultErrInto<T1, E1, E2> {
 	/// Performs the conversion between [`Err`] values.
+	/// For more details, see the [trait's](ResultErrInto) documentation.
 	fn err_into(self) -> Result<T1, E2>;
 }
 
@@ -195,6 +199,7 @@ where
 /// ```
 pub trait ResultValueFrom<T1, T2, E1, E2> {
 	/// Performs the conversion between [`Ok`] and [`Err`] values.
+	/// For more details, see the [trait's](ResultValueFrom) documentation.
 	fn val_from(val: Result<T1, E1>) -> Self;
 }
 
@@ -238,6 +243,7 @@ where
 /// ```
 pub trait ResultValueInto<T1, T2, E1, E2> {
 	/// Performs the conversion between [`Ok`] and [`Err`] values.
+	/// For more details, see the [trait's](ResultValueInto) documentation.
 	fn val_into(self) -> Result<T2, E2>;
 }
 
