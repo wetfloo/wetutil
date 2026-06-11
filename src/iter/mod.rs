@@ -61,8 +61,7 @@ pub trait IterExt: Iterator {
 	/// ];
 	/// let mut inspect_storage = Vec::new();
 	///
-	/// let mut iter = results
-	///     .into_iter()
+	/// let mut iter = IntoIterator::into_iter(results)
 	///     .inspect_ok(|&v| inspect_storage.push(v));
 	///
 	/// assert_eq!(Some(Ok(1)), iter.next());
@@ -126,8 +125,7 @@ pub trait IterExt: Iterator {
 	/// ];
 	/// let mut inspect_storage = Vec::new();
 	///
-	/// let mut iter = results
-	///     .into_iter()
+	/// let mut iter = IntoIterator::into_iter(results)
 	///     .inspect_err(|&v| inspect_storage.push(v));
 	///
 	/// assert_eq!(Some(Ok(1)), iter.next());
@@ -190,8 +188,7 @@ pub trait IterExt: Iterator {
 	/// ];
 	/// let mut inspect_storage = Vec::new();
 	///
-	/// let mut iter = results
-	///     .into_iter()
+	/// let mut iter = IntoIterator::into_iter(results)
 	///     .inspect_some(|&v| inspect_storage.push(v));
 	///
 	/// assert_eq!(Some(None), iter.next());
@@ -255,8 +252,7 @@ pub trait IterExt: Iterator {
 	///     Err(6),
 	/// ];
 	///
-	/// let mut filtered_iter = results
-	///     .into_iter()
+	/// let mut filtered_iter = IntoIterator::into_iter(results)
 	///     .discard_ok();
 	///
 	/// assert_eq!(Some(2), filtered_iter.next());
@@ -314,8 +310,7 @@ pub trait IterExt: Iterator {
 	///     Err(6),
 	/// ];
 	///
-	/// let mut filtered_iter = results
-	///     .into_iter()
+	/// let mut filtered_iter = IntoIterator::into_iter(results)
 	///     .discard_err();
 	///
 	/// assert_eq!(Some(1), filtered_iter.next());
@@ -369,8 +364,7 @@ pub trait IterExt: Iterator {
 	///     Some(6),
 	/// ];
 	///
-	/// let mut filtered_iter = results
-	///     .into_iter()
+	/// let mut filtered_iter = IntoIterator::into_iter(results)
 	///     .discard_none();
 	///
 	/// assert_eq!(Some(2), filtered_iter.next());
@@ -435,8 +429,7 @@ pub trait IterExt: Iterator {
 	/// ];
 	/// let mut consumed_values = Vec::new();
 	///
-	/// let mut filtered_iter = results
-	///     .into_iter()
+	/// let mut filtered_iter = IntoIterator::into_iter(results)
 	///     .consume_ok(|v| consumed_values.push(v));
 	///
 	/// assert_eq!(Some(2), filtered_iter.next());
@@ -521,8 +514,7 @@ pub trait IterExt: Iterator {
 	/// ];
 	/// let mut consumed_values = Vec::new();
 	///
-	/// let mut filtered_iter = results
-	///     .into_iter()
+	/// let mut filtered_iter = IntoIterator::into_iter(results)
 	///     .consume_err(|v| consumed_values.push(v));
 	///
 	/// assert_eq!(Some(1), filtered_iter.next());
