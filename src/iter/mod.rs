@@ -36,7 +36,7 @@ pub trait IterExt: Iterator {
 	///     inspect_action(v);
 	/// });
 	///
-	/// fn inspect_action(value: &Value) {
+	/// fn inspect_action(_: &Value) {
 	///     // some logging here...
 	/// }
 	/// ```
