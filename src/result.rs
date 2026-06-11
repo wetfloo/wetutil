@@ -1,3 +1,8 @@
+//! [`Result`] extensions
+//!
+//! This module provides extension traits, containing useful methods
+//! for converting between [`Result`] value types.
+
 pub trait ResultOkFrom<T1, T2, E1> {
 	/// Converts between [Ok] values.
 	///

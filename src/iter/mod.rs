@@ -1,3 +1,8 @@
+//! [`Iterator`] extensions
+//!
+//! This module provides [`IterExt`], containing useful methods
+//! for iterators containing [`Result`] and/or [`Option`] values.
+
 mod consume;
 mod inspect;
 
