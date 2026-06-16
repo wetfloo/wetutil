@@ -22,7 +22,7 @@
 /// Using [`ResultOkFrom`]:
 ///
 /// ```
-/// # use wetutil::result::ResultOkFrom as _;
+/// # use wetutil::convert::result::ResultOkFrom as _;
 /// let r1: Result<u8, ()> = Ok(42);
 /// let r2: Result<u16, _> = Result::ok_from(r1);
 ///
@@ -63,7 +63,7 @@ where
 /// Using [`ResultOkInto`]:
 ///
 /// ```
-/// # use wetutil::result::ResultOkInto as _;
+/// # use wetutil::convert::result::ResultOkInto as _;
 /// let r1: Result<u8, ()> = Ok(42);
 /// let r2: Result<u16, _> = r1.ok_into();
 ///
@@ -104,7 +104,7 @@ where
 /// Using [`ResultErrFrom`]:
 ///
 /// ```
-/// # use wetutil::result::ResultErrFrom as _;
+/// # use wetutil::convert::result::ResultErrFrom as _;
 /// let r1: Result<(), u8> = Err(42);
 /// let r2: Result<_, u16> = Result::err_from(r1);
 ///
@@ -148,7 +148,7 @@ where
 /// Using [`ResultErrInto`]:
 ///
 /// ```
-/// # use wetutil::result::ResultErrInto as _;
+/// # use wetutil::convert::result::ResultErrInto as _;
 /// let r1: Result<(), u8> = Err(42);
 /// let r2: Result<_, u16> = r1.err_into();
 ///
@@ -191,7 +191,7 @@ where
 /// Using [`ResultValueFrom`]:
 ///
 /// ```
-/// # use wetutil::result::ResultValueFrom as _;
+/// # use wetutil::convert::result::ResultValueFrom as _;
 /// let r1: Result<u8, &str> = Ok(42);
 /// let r2: Result<u16, String> = Result::val_from(r1);
 ///
@@ -235,7 +235,7 @@ where
 /// Using [`ResultValueInto`]:
 ///
 /// ```
-/// # use wetutil::result::ResultValueInto as _;
+/// # use wetutil::convert::result::ResultValueInto as _;
 /// let r1: Result<u8, &str> = Ok(42);
 /// let r2: Result<u16, String> = r1.val_into();
 ///

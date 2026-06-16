@@ -6,20 +6,18 @@
 
 #![deny(unreachable_pub)]
 
+pub mod convert;
 pub mod iter;
-pub mod result;
 
 /// This crate's prelude
 ///
 /// It re-exports extension traits.
 pub mod prelude {
+	pub use crate::convert::result::ResultErrFrom;
+	pub use crate::convert::result::ResultErrInto;
+	pub use crate::convert::result::ResultOkFrom;
+	pub use crate::convert::result::ResultOkInto;
+	pub use crate::convert::result::ResultValueFrom;
+	pub use crate::convert::result::ResultValueInto;
 	pub use crate::iter::IterExt;
-
-	pub use crate::result::ResultErrFrom;
-	pub use crate::result::ResultOkFrom;
-	pub use crate::result::ResultValueFrom;
-
-	pub use crate::result::ResultErrInto;
-	pub use crate::result::ResultOkInto;
-	pub use crate::result::ResultValueInto;
 }
