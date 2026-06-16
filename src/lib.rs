@@ -13,6 +13,8 @@ pub mod iter;
 ///
 /// It re-exports extension traits.
 pub mod prelude {
+	pub use crate::convert::option::OptionValueFrom;
+	pub use crate::convert::option::OptionValueInto;
 	pub use crate::convert::result::ResultErrFrom;
 	pub use crate::convert::result::ResultErrInto;
 	pub use crate::convert::result::ResultOkFrom;
