@@ -13,8 +13,13 @@ pub mod result;
 ///
 /// It re-exports extension traits.
 pub mod prelude {
-	pub use crate::iter::IterExt;
-	pub use crate::result::ResultErrInto;
-	pub use crate::result::ResultOkInto;
-	pub use crate::result::ResultValueInto;
+	pub use crate::iter::IterExt as _;
+
+	pub use crate::result::ResultErrFrom as _;
+	pub use crate::result::ResultOkFrom as _;
+	pub use crate::result::ResultValueFrom as _;
+
+	pub use crate::result::ResultErrInto as _;
+	pub use crate::result::ResultOkInto as _;
+	pub use crate::result::ResultValueInto as _;
 }
