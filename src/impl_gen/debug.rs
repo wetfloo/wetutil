@@ -1,4 +1,4 @@
-/// Generate a debug implementation from the type name.
+/// Generate [`Debug`](core::fmt::Debug) implementation from the type name.
 ///
 /// Examples:
 /// ```
