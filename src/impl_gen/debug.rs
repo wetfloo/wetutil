@@ -15,11 +15,7 @@
 #[doc(hidden)]
 macro_rules! _core_fmt_debug__from_type_name {
 	($type:ty$(,)?) => {
-		impl ::core::fmt::Debug for $type {
-			fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
-				f.write_str(&$crate::pretty_type_name_alloc::pretty_type_name::<Self>())
-			}
-		}
+		$crate::_core_fmt_common__from_type_name!(::core::fmt::Debug | $type);
 	};
 }
 

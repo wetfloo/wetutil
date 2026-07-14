@@ -1,4 +1,4 @@
-//! [`Debug`](core::fmt::Debug) implementation generation.
+//! [`Display`](core::fmt::Display) implementation generation.
 
 /// Generate [`Display`](core::fmt::Display) implementation from the type name.
 ///
@@ -15,11 +15,7 @@
 #[doc(hidden)]
 macro_rules! _core_fmt_display__from_type_name {
 	($type:ty$(,)?) => {
-		impl ::core::fmt::Display for $type {
-			fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
-				f.write_str(&$crate::pretty_type_name_alloc::pretty_type_name::<Self>())
-			}
-		}
+		$crate::_core_fmt_common__from_type_name!(::core::fmt::Display | $type);
 	};
 }
 
