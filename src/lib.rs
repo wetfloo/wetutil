@@ -7,7 +7,14 @@
 //! It's mostly a mish-mash of things that
 //! I'm tired of writing in more tedious ways.
 
+#![no_std]
 #![deny(unreachable_pub)]
+
+#[cfg(feature = "alloc")]
+extern crate alloc;
+
+#[cfg(feature = "std")]
+extern crate std;
 
 pub mod convert;
 pub mod impl_gen;

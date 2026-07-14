@@ -1,4 +1,4 @@
-use std::iter::FusedIterator;
+use core::iter::FusedIterator;
 
 pub(super) type InspectOk<N, F> = InspectSpecialCase<N, InspectSpecialCaseFnOk<F>>;
 pub(super) type InspectError<N, F> = InspectSpecialCase<N, InspectSpecialCaseFnError<F>>;

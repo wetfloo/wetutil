@@ -1,4 +1,4 @@
-use std::iter::FusedIterator;
+use core::iter::FusedIterator;
 
 pub(super) type ConsumeResultOk<N, F> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnResultOk<F>>;
 pub(super) type ConsumeResultErr<N, F> = ConsumeSpecialCase<N, ConsumeSpecialCaseFnResultErr<F>>;

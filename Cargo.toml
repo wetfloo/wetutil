@@ -10,4 +10,12 @@ repository = "https://github.com/wetfloo/wetutil"
 rust-version = "1.76"
 
 [dependencies]
-pretty-type-name = "1"
+pretty-type-name = { version = "1", optional = true }
+
+[features]
+default = ["type-name"]
+
+type-name = ["std", "dep:pretty-type-name"]
+
+alloc = []
+std = ["alloc"]
