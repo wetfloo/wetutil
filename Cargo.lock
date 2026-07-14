@@ -3,5 +3,14 @@
 version = 3
 
 [[package]]
+name = "pretty-type-name"
+version = "1.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f0f73cdaf19b52e6143685c3606206e114a4dfa969d6b14ec3894c88eb38bd4b"
+
+[[package]]
 name = "wetutil"
 version = "0.3.2"
+dependencies = [
+ "pretty-type-name",
+]

@@ -8,3 +8,6 @@ license = "MIT"
 homepage = "https://github.com/wetfloo/wetutil"
 repository = "https://github.com/wetfloo/wetutil"
 rust-version = "1.76"
+
+[dependencies]
+pretty-type-name = "1"

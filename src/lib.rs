@@ -10,6 +10,7 @@
 #![deny(unreachable_pub)]
 
 pub mod convert;
+pub mod impl_gen;
 pub mod iter;
 
 /// This crate's prelude
