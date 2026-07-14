@@ -8,7 +8,7 @@
 //! I'm tired of writing in more tedious ways.
 
 #![no_std]
-#![deny(unreachable_pub)]
+#![deny(unused_must_use, unreachable_pub)]
 #![cfg_attr(docsrs, feature(doc_cfg))]
 
 #[cfg(feature = "alloc")]
