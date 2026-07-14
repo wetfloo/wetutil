@@ -1,6 +1,8 @@
+//! [`Debug`](core::fmt::Debug) implementation generation.
+
 /// Generate [`Debug`](core::fmt::Debug) implementation from the type name.
 ///
-/// Examples:
+/// Example:
 /// ```
 /// # use wetutil::impl_gen::debug::from_type_name;
 /// struct MyType;
@@ -10,8 +12,8 @@
 /// assert_eq!("MyType", format!("{:?}", MyType).as_str());
 /// ```
 #[macro_export]
-#[cfg_attr(docsrs, doc(cfg(feature = "type-name")))]
-macro_rules! from_type_name {
+#[doc(hidden)]
+macro_rules! _core_fmt_debug__from_type_name {
 	($type:ty$(,)?) => {
 		impl ::core::fmt::Debug for $type {
 			fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
@@ -21,4 +23,6 @@ macro_rules! from_type_name {
 	};
 }
 
-pub use from_type_name;
+#[cfg_attr(docsrs, doc(cfg(feature = "type-name")))]
+#[doc(inline)]
+pub use _core_fmt_debug__from_type_name as from_type_name;
