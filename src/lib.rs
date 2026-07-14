@@ -16,6 +16,10 @@ extern crate alloc;
 #[cfg(feature = "std")]
 extern crate std;
 
+#[cfg(feature = "type-name")]
+#[doc(hidden)]
+pub use pretty_type_name_alloc;
+
 pub mod convert;
 pub mod impl_gen;
 pub mod iter;
