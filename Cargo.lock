@@ -10,7 +10,7 @@ checksum = "29de89db8f67b92db51e794174590ea5bf0db3b61a8d1d6d0769a47689f83c37"
 
 [[package]]
 name = "wetutil"
-version = "0.3.2"
+version = "0.4.0"
 dependencies = [
  "pretty-type-name-alloc",
 ]
