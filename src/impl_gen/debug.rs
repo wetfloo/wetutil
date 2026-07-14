@@ -15,9 +15,7 @@ macro_rules! from_type_name {
 	($type:ty$(,)?) => {
 		impl ::core::fmt::Debug for $type {
 			fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
-				f.write_str(&::pretty_type_name::pretty_type_name::<
-					Self,
-				>())
+				f.write_str(&::pretty_type_name_alloc::pretty_type_name::<Self>())
 			}
 		}
 	};
