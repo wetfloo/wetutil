@@ -227,10 +227,7 @@ pub trait IterExt: Iterator {
 	/// #
 	/// let mut consumed = Vec::new();
 	///
-	/// for e in iter.clone().filter_map(|res| match res {
-	///     Err(e) => Some(e),
-	///     Ok(_) => None,
-	/// }) {
+	/// for e in iter.clone().filter_map(|res| res.err()) {
 	///     consumed.push(e);
 	/// }
 	///
@@ -286,10 +283,7 @@ pub trait IterExt: Iterator {
 	/// #
 	/// let mut consumed = Vec::new();
 	///
-	/// for v in iter.clone().filter_map(|res| match res {
-	///     Ok(v) => Some(v),
-	///     Err(_) => None,
-	/// }) {
+	/// for v in iter.clone().filter_map(|res| res.ok()) {
 	///     consumed.push(v);
 	/// }
 	///
