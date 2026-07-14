@@ -1,7 +1,7 @@
 [package]
 name = "wetutil"
 description = "One-stop crate for all the rust features that I'm missing"
-version = "0.3.1"
+version = "0.3.2"
 edition = "2021"
 
 license = "MIT"
