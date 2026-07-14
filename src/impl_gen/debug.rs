@@ -10,6 +10,7 @@
 /// assert_eq!("MyType", format!("{:?}", MyType).as_str());
 /// ```
 #[macro_export]
+#[cfg_attr(docsrs, doc(cfg(feature = "type-name")))]
 macro_rules! from_type_name {
 	($type:ty$(,)?) => {
 		impl ::core::fmt::Debug for $type {
