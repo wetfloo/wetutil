@@ -1,0 +1,12 @@
+# keep-sorted start
+allow-indexing-slicing-in-tests = true
+allow-panic-in-tests = true
+allow-print-in-tests = true
+allow-unwrap-in-tests = true
+# keep-sorted end
+
+allow-renamed-params-for = []
+check-private-items = true
+single-char-binding-names-threshold = 3
+semicolon-inside-block-ignore-singleline = true
+max-trait-bounds = 1
