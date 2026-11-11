@@ -1,4 +1,4 @@
-//! [`Result`] extensions
+//! [`Result`] extensions.
 //!
 //! This module provides extension traits, containing useful methods
 //! for converting between [`Result`] value types.
@@ -28,6 +28,7 @@
 ///
 /// assert_eq!(Ok(42u16), r2);
 /// ```
+#[allow(clippy::module_name_repetitions)]
 pub trait ResultOkFrom<T1, T2, E1> {
 	/// Performs the conversion between [`Ok`] values.
 	/// For more details, see the [trait's](ResultOkFrom) documentation.
@@ -69,6 +70,7 @@ where
 ///
 /// assert_eq!(Ok(42u16), r2);
 /// ```
+#[allow(clippy::module_name_repetitions)]
 pub trait ResultOkInto<T1, T2, E1> {
 	/// Performs the conversion between [`Ok`] values.
 	/// For more details, see the [trait's](ResultOkInto) documentation.
@@ -110,6 +112,7 @@ where
 ///
 /// assert_eq!(Err(42u16), r2);
 /// ```
+#[allow(clippy::module_name_repetitions)]
 pub trait ResultErrFrom<T1, E1, E2> {
 	/// Performs the conversion between [`Err`] values.
 	/// For more details, see the [trait's](ResultErrFrom) documentation.
@@ -154,6 +157,7 @@ where
 ///
 /// assert_eq!(Err(42u16), r2);
 /// ```
+#[allow(clippy::module_name_repetitions)]
 pub trait ResultErrInto<T1, E1, E2> {
 	/// Performs the conversion between [`Err`] values.
 	/// For more details, see the [trait's](ResultErrInto) documentation.
@@ -197,6 +201,7 @@ where
 ///
 /// assert_eq!(Ok(42u16), r2);
 /// ```
+#[allow(clippy::module_name_repetitions)]
 pub trait ResultValueFrom<T1, T2, E1, E2> {
 	/// Performs the conversion between [`Ok`] and [`Err`] values.
 	/// For more details, see the [trait's](ResultValueFrom) documentation.
@@ -241,6 +246,7 @@ where
 ///
 /// assert_eq!(Ok(42u16), r2);
 /// ```
+#[allow(clippy::module_name_repetitions)]
 pub trait ResultValueInto<T1, T2, E1, E2> {
 	/// Performs the conversion between [`Ok`] and [`Err`] values.
 	/// For more details, see the [trait's](ResultValueInto) documentation.

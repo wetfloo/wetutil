@@ -29,7 +29,7 @@ where
 			match self.f.call(val) {
 				// Consume the original value,
 				// trying to find next that won't be consumed.
-				None => continue,
+				None => (),
 				// Found the value that didn't get consumed.
 				v => return v,
 			}
@@ -54,7 +54,7 @@ where
 			match self.f.call(val) {
 				// Consume the original value,
 				// trying to find next that won't be consumed.
-				None => continue,
+				None => (),
 				// Found the value that didn't get consumed.
 				v => return v,
 			}

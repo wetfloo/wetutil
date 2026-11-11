@@ -1,4 +1,4 @@
-//! [`Option`] extensions
+//! [`Option`] extensions.
 //!
 //! This module provides extension traits, containing useful methods
 //! for converting between [`Some`] value types.
@@ -28,6 +28,7 @@
 ///
 /// assert_eq!(Some(42u16), o2);
 /// ```
+#[allow(clippy::module_name_repetitions)]
 pub trait OptionValueFrom<T1, T2> {
 	/// Performs the conversion between [`Some`] values.
 	/// For more details, see the [trait's](OptionValueFrom) documentation.
@@ -69,6 +70,7 @@ where
 ///
 /// assert_eq!(Some(42u16), o2);
 /// ```
+#[allow(clippy::module_name_repetitions)]
 pub trait OptionValueInto<T1, T2> {
 	/// Performs the conversion between [`Some`] values.
 	/// For more details, see the [trait's](OptionValueInto) documentation.

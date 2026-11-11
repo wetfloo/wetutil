@@ -20,7 +20,7 @@ extern crate std;
 pub mod convert;
 pub mod iter;
 
-/// This crate's prelude
+/// This crate's prelude.
 ///
 /// It re-exports extension traits.
 pub mod prelude {

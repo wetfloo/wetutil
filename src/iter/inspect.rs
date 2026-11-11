@@ -62,7 +62,7 @@ where
 {
 }
 
-pub(crate) trait InspectSpecialCaseFn<T> {
+pub trait InspectSpecialCaseFn<T> {
 	fn call(&mut self, val: &T);
 }
 
@@ -89,7 +89,7 @@ where
 	#[inline]
 	fn call(&mut self, val: &Result<T, E>) {
 		if let Ok(v) = val.as_ref() {
-			self.0(v)
+			self.0(v);
 		}
 	}
 }
@@ -117,7 +117,7 @@ where
 	#[inline]
 	fn call(&mut self, val: &Result<T, E>) {
 		if let Err(e) = val.as_ref() {
-			self.0(e)
+			self.0(e);
 		}
 	}
 }
@@ -145,7 +145,7 @@ where
 	#[inline]
 	fn call(&mut self, val: &Option<T>) {
 		if let Some(v) = val.as_ref() {
-			self.0(v)
+			self.0(v);
 		}
 	}
 }

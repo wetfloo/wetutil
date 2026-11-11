@@ -1,4 +1,4 @@
-//! [`Iterator`] extensions
+//! [`Iterator`] extensions.
 //!
 //! This module provides [`IterExt`], containing useful methods
 //! for iterators containing [`Result`] and/or [`Option`] values.
@@ -18,6 +18,7 @@ use inspect::InspectSome;
 /// [`Iterator`] helpers.
 ///
 /// See individual method documentation for more details.
+#[allow(clippy::module_name_repetitions)]
 pub trait IterExt: Iterator {
 	/// Allows you to inspect any [`Ok`] contents without modifying the iterator.
 	///
